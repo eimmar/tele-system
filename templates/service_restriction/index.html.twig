@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ServiceRestriction index{% endblock %}
+
+{% block body %}
+    <h1>ServiceRestriction index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateCreated</th>
+                <th>Comment</th>
+                <th>SpeedLimitMb</th>
+                <th>DateModified</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for service_restriction in service_restrictions %}
+            <tr>
+                <td>{{ service_restriction.id }}</td>
+                <td>{{ service_restriction.dateCreated ? service_restriction.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ service_restriction.comment }}</td>
+                <td>{{ service_restriction.speedLimitMb }}</td>
+                <td>{{ service_restriction.dateModified ? service_restriction.dateModified|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('service_restriction_show', {'id': service_restriction.id}) }}">show</a>
+                    <a href="{{ path('service_restriction_edit', {'id': service_restriction.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('service_restriction_new') }}">Create new</a>
+{% endblock %}

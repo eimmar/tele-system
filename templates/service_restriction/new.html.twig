@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ServiceRestriction{% endblock %}
+
+{% block body %}
+    <h1>Create new ServiceRestriction</h1>
+
+    {{ include('service_restriction/_form.html.twig') }}
+
+    <a href="{{ path('service_restriction_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <h1>User index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>BirthDate</th>
+                <th>IsIndividual</th>
+                <th>Salary</th>
+                <th>Position</th>
+                <th>WorkSinceDate</th>
+                <th>AdditionalCompensation</th>
+                <th>IsBlocked</th>
+                <th>Roles</th>
+                <th>DateCreated</th>
+                <th>DateUpdated</th>
+                <th>LastVisitDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.age }}</td>
+                <td>{{ user.gender }}</td>
+                <td>{{ user.birthDate ? user.birthDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.isIndividual ? 'Yes' : 'No' }}</td>
+                <td>{{ user.salary }}</td>
+                <td>{{ user.position }}</td>
+                <td>{{ user.workSinceDate ? user.workSinceDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.additionalCompensation }}</td>
+                <td>{{ user.isBlocked ? 'Yes' : 'No' }}</td>
+                <td>{{ user.roles }}</td>
+                <td>{{ user.dateCreated ? user.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.dateUpdated ? user.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.lastVisitDate ? user.lastVisitDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="20">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_new') }}">Create new</a>
+{% endblock %}

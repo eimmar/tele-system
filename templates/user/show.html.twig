@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ user.firstName }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ user.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>PasswordHash</th>
+                <td>{{ user.passwordHash }}</td>
+            </tr>
+            <tr>
+                <th>Age</th>
+                <td>{{ user.age }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ user.gender }}</td>
+            </tr>
+            <tr>
+                <th>ConfirmationToken</th>
+                <td>{{ user.confirmationToken }}</td>
+            </tr>
+            <tr>
+                <th>BirthDate</th>
+                <td>{{ user.birthDate ? user.birthDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsIndividual</th>
+                <td>{{ user.isIndividual ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Salary</th>
+                <td>{{ user.salary }}</td>
+            </tr>
+            <tr>
+                <th>Position</th>
+                <td>{{ user.position }}</td>
+            </tr>
+            <tr>
+                <th>WorkSinceDate</th>
+                <td>{{ user.workSinceDate ? user.workSinceDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>AdditionalCompensation</th>
+                <td>{{ user.additionalCompensation }}</td>
+            </tr>
+            <tr>
+                <th>IsBlocked</th>
+                <td>{{ user.isBlocked ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles }}</td>
+            </tr>
+            <tr>
+                <th>DateCreated</th>
+                <td>{{ user.dateCreated ? user.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateUpdated</th>
+                <td>{{ user.dateUpdated ? user.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>LastVisitDate</th>
+                <td>{{ user.lastVisitDate ? user.lastVisitDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_index') }}">back to list</a>
+
+    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+
+    {{ include('user/_delete_form.html.twig') }}
+{% endblock %}

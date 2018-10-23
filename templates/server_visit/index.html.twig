@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ServerVisit index{% endblock %}
+
+{% block body %}
+    <h1>ServerVisit index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>VisitDate</th>
+                <th>Ip</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for server_visit in server_visits %}
+            <tr>
+                <td>{{ server_visit.id }}</td>
+                <td>{{ server_visit.visitDate ? server_visit.visitDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ server_visit.ip }}</td>
+                <td>
+                    <a href="{{ path('server_visit_show', {'id': server_visit.id}) }}">show</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

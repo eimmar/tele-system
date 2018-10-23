@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New MessageRequest{% endblock %}
+
+{% block body %}
+    <h1>Create new MessageRequest</h1>
+
+    {{ include('message_request/_form.html.twig') }}
+
+    <a href="{{ path('message_request_index') }}">back to list</a>
+{% endblock %}

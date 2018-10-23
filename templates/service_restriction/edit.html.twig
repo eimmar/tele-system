@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ServiceRestriction{% endblock %}
+
+{% block body %}
+    <h1>Edit ServiceRestriction</h1>
+
+    {{ include('service_restriction/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('service_restriction_index') }}">back to list</a>
+
+    {{ include('service_restriction/_delete_form.html.twig') }}
+{% endblock %}
