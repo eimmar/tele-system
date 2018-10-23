@@ -24,6 +24,14 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/activity", name="user_activity", methods="GET")
+     */
+    public function activity(UserRepository $userRepository): Response
+    {
+        return $this->render('user/activity_list.html.twig', ['users' => $userRepository->findAll()]);
+    }
+
+    /**
      * @Route("/new", name="user_new", methods="GET|POST")
      */
     public function new(Request $request): Response

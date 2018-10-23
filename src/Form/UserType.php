@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UserType extends AbstractType
 {
@@ -15,22 +16,24 @@ class UserType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('email')
-            ->add('passwordHash')
             ->add('age')
             ->add('gender')
-            ->add('confirmationToken')
             ->add('birthDate')
             ->add('isIndividual')
             ->add('salary')
             ->add('position')
-            ->add('workSinceDate')
             ->add('additionalCompensation')
             ->add('isBlocked')
-            ->add('roles')
-            ->add('dateCreated')
-            ->add('dateUpdated')
-            ->add('lastVisitDate')
-        ;
+            ->add('workSinceDate')
+            ->add('roles', ChoiceType::class,
+                ['choices'  =>
+                    [
+                        'Klientas' => 'Klientas',
+                        'Vadybininkas' => 'Vadybininkas',
+                        'Administratorius' => 'Administratorius',
+                        'Super Administratorius' => 'Super Administratorius'
+                    ]
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

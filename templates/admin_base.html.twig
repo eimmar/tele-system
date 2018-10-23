@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Administratoriaus puslapis!{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('build/css/main.css') }}">
         {% endblock %}
@@ -11,11 +11,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <a href="/">Puslapis 1</a>
-                <a href="/">Puslapis 2</a>
-                <a href="/">Puslapis 3</a>
-                <a href="/">Puslapis 4</a>
-                <a href="/">Puslapis 5</a>
+                <a href="{{ path('server_visit_index') }}">Prisijungimų statistika</a>
+                <a href="{{ path('user_activity') }}">Naudotojų stebėjimas</a>
+                <a href="{{ path('user_index') }}">Naudotojų sąrašas</a>
             </div>
         </div>
         {% block body %}

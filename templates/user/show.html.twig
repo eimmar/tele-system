@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Naudotojas{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>Naudotojas</h1>
 
     <table class="table">
         <tbody>
@@ -12,83 +12,75 @@
                 <td>{{ user.id }}</td>
             </tr>
             <tr>
-                <th>FirstName</th>
+                <th>Vardas</th>
                 <td>{{ user.firstName }}</td>
             </tr>
             <tr>
-                <th>LastName</th>
+                <th>Pavardė</th>
                 <td>{{ user.lastName }}</td>
             </tr>
             <tr>
-                <th>Email</th>
+                <th>El. paštas</th>
                 <td>{{ user.email }}</td>
             </tr>
             <tr>
-                <th>PasswordHash</th>
-                <td>{{ user.passwordHash }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
+                <th>Amžius</th>
                 <td>{{ user.age }}</td>
             </tr>
             <tr>
-                <th>Gender</th>
+                <th>Lytis</th>
                 <td>{{ user.gender }}</td>
             </tr>
             <tr>
-                <th>ConfirmationToken</th>
-                <td>{{ user.confirmationToken }}</td>
-            </tr>
-            <tr>
-                <th>BirthDate</th>
+                <th>Gimimo data</th>
                 <td>{{ user.birthDate ? user.birthDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>IsIndividual</th>
-                <td>{{ user.isIndividual ? 'Yes' : 'No' }}</td>
+                <th>Fizinis asmuo</th>
+                <td>{{ user.isIndividual ? 'Taip' : 'Ne' }}</td>
             </tr>
             <tr>
-                <th>Salary</th>
+                <th>Alga</th>
                 <td>{{ user.salary }}</td>
             </tr>
             <tr>
-                <th>Position</th>
+                <th>Pozicija</th>
                 <td>{{ user.position }}</td>
             </tr>
             <tr>
-                <th>WorkSinceDate</th>
+                <th>Dirba nuo</th>
                 <td>{{ user.workSinceDate ? user.workSinceDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>AdditionalCompensation</th>
+                <th>Priedai prie atlyginimo</th>
                 <td>{{ user.additionalCompensation }}</td>
             </tr>
             <tr>
-                <th>IsBlocked</th>
-                <td>{{ user.isBlocked ? 'Yes' : 'No' }}</td>
+                <th>Užblokuotas</th>
+                <td>{{ user.isBlocked ? 'Taip' : 'Ne' }}</td>
             </tr>
             <tr>
-                <th>Roles</th>
+                <th>Rolės</th>
                 <td>{{ user.roles }}</td>
             </tr>
             <tr>
-                <th>DateCreated</th>
+                <th>Užsiregistravimo data</th>
                 <td>{{ user.dateCreated ? user.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>DateUpdated</th>
+                <th>Atnaujinimo data</th>
                 <td>{{ user.dateUpdated ? user.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>LastVisitDate</th>
+                <th>paskutinį kartą buvo prisijungęs</th>
                 <td>{{ user.lastVisitDate ? user.lastVisitDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <a href="{{ path('user_index') }}">Atgal į sąrašą</a>
 
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+    <a href="{{ path('user_edit', {'id': user.id}) }}">Redaguoti</a>
 
     {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

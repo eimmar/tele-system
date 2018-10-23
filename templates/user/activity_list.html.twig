@@ -1,0 +1,49 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Paskutiniuoju metu prisijungę naudotojai{% endblock %}
+
+{% block body %}
+    <h1>Paskutiniuoju metu prisijungę naudotojai</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Vardas</th>
+            <th>Pavardė</th>
+            <th>El. paštas</th>
+            <th>amžius</th>
+            <th>Lytis</th>
+            <th>Fizinis asmuo</th>
+            <th>Užblokuotas</th>
+            <th>Rolės</th>
+            <th>Paskutinio prisijungimo data</th>
+            <th>Veiksmai</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.age }}</td>
+                <td>{{ user.gender }}</td>
+                <td>{{ user.isIndividual ? 'Taip' : 'Ne' }}</td>
+                <td>{{ user.isBlocked ? 'Taip' : 'Ne' }}</td>
+                <td>{{ user.roles }}</td>
+                <td>{{ user.lastVisitDate ? user.lastVisitDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">Atidaryti</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">Redaguoti</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="20">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_new') }}">Naujas</a>
+{% endblock %}
