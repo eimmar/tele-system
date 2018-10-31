@@ -1,0 +1,11 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Service index{% endblock %}
+
+{% block body %}
+<h1>Admin</h1>
+    <h1>This is service page, pick service type to continue</h1>
+    <a href="/service/admin/mobile">Mobile service</a>
+<br>
+    <a href="{{ path('service_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Telecom system{% endblock %}
+
+{% block body %}
+    <h1>Admin</h1>
+    <h1>Telecommunication system main view</h1>
+    <br>
+    <button onclick="location.href='http://localhost:8000/service/new'" type="button">
+     Create new mobile plan</button>
+    <button onclick="location.href='http://localhost:8000/service/admin/mobile'" type="button">
+     Delete mobile plan page</button>
+    <button onclick="location.href='http://localhost:8000/order/disapproved'" type="button">
+     Disapproved order list</button>
+    <button onclick="location.href='http://localhost:8000/service/admin/mobile'" type="button">
+     Create special offer</button>
+     <button onclick="location.href='http://localhost:8000/service/admin/mobile'" type="button">
+     Delete special offer</button>
+{% endblock %}
