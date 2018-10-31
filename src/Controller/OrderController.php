@@ -20,7 +20,16 @@ class OrderController extends AbstractController
      */
     public function index(OrderRepository $orderRepository): Response
     {
+        return $this->render('order/index.html.twig');
         return $this->render('order/index.html.twig', ['orders' => $orderRepository->findAll()]);
+    }
+
+       /**
+     * @Route("/disapproved", name="disapproved_orders", methods="GET")
+     */
+    public function disapproved_list(OrderRepository $orderRepository): Response
+    {
+        return $this->render('order/disapproved_orders.html.twig');
     }
 
     /**
@@ -46,13 +55,22 @@ class OrderController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="order_show", methods="GET")
+      /**
+     * @Route("/{id}", name="user_orders", methods="GET")
      */
-    public function show(Order $order): Response
+    public function user_orders(OrderRepository $orderRepository): Response
     {
-        return $this->render('order/show.html.twig', ['order' => $order]);
+       return $this->render('order/user_orders.html.twig');
+        return $this->render('order/index.html.twig', ['orders' => $orderRepository->findAll()]);
     }
+    // /**
+    //  * @Route("/{id}", name="order_show", methods="GET")
+    //  */
+    // public function show(Order $order): Response
+    // {
+    //    // return $this->render('order/user_orders');
+    //     return $this->render('order/show.html.twig', ['order' => $order]);
+    // }
 
     /**
      * @Route("/{id}/edit", name="order_edit", methods="GET|POST")

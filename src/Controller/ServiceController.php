@@ -18,9 +18,51 @@ class ServiceController extends AbstractController
     /**
      * @Route("/", name="service_index", methods="GET")
      */
-    public function index(ServiceRepository $serviceRepository): Response
+    public function index_user(ServiceRepository $serviceRepository): Response
     {
-        return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
+        return $this->render('service/index.html.twig');
+       // return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
+    }
+      /**
+     * @Route("/admin", name="service_index_admin", methods="GET")
+     */
+    public function index_admin(ServiceRepository $serviceRepository): Response
+    {
+        return $this->render('service/index_admin.html.twig');
+       // return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
+    }
+
+     /**
+     * @Route("/mobile", name="service_mobile_index", methods="GET")
+     */
+    public function index_mobile_user(ServiceRepository $serviceRepository): Response
+    {
+        return $this->render('service_mobile/index.html.twig');
+       // return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
+    }
+
+
+     /**
+     * @Route("/admin/mobile", name="service_mobile_index_admin", methods="GET")
+     */
+    public function index_mobile_admin(ServiceRepository $serviceRepository): Response
+    {
+        return $this->render('service_mobile/index_admin.html.twig');
+       // return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
+    }
+    /**
+     * @Route("/mobile/special", name="service_mobile_special", methods="GET")
+     */
+    public function special_offer(): Response
+    {
+        return $this->render('service_mobile/special_offer.html.twig');
+    }
+      /**
+     * @Route("/mobile/special/{id}", name="service_mobile_special", methods="GET")
+     */
+    public function delete_special_offer(): Response
+    {
+        return $this->redirectToRoute('service_mobile_index_admin');
     }
 
     /**
