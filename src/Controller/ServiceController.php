@@ -58,7 +58,7 @@ class ServiceController extends AbstractController
         return $this->render('service_mobile/special_offer.html.twig');
     }
       /**
-     * @Route("/mobile/special/{id}", name="service_mobile_special", methods="GET")
+     * @Route("/mobile/special/{id}", name="service_mobile_special_delete", methods="GET")
      */
     public function delete_special_offer(): Response
     {
