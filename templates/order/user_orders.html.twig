@@ -3,11 +3,24 @@
 {% block title %}Order index{% endblock %}
 
 {% block body %}
-    <h1>Order index</h1>
+    <h1>User orders</h1>
 
-
-<button onclick="location.href='http://localhost:8000/order/1'" type="button">
-     View my orders</button>
+<table class="table">
+<tr>
+            <th>Id</th>
+            <th>Mobile plan</th>
+</tr>
+<tr>
+        <td>1</td>
+        <td>Max</td>
+        <td><input type="submit" value="Cancel"></td>
+</tr>
+<tr>
+        <td>2</td>
+        <td>Min</td>
+        <td><input type="submit" value="Cancel"></td>
+</tr>
+</table>
 {# 
     <table class="table">
         <thead>
@@ -45,5 +58,7 @@
         </tbody>
     </table> #}
 
+ <a href="/service/mobile">Create new mobile plan order</a>
+ <br>
     {# <a href="{{ path('order_new') }}">Create new</a> #}
 {% endblock %}
