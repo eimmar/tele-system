@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Financial report creation{% endblock %}
+
+{% block body %}
+    <h1>Financial report creation</h1>
+    Start date: <input type=date dateInput="date"><br>
+    End date: <input type=date dateInput="date"><br>
+    <br>
+    <input type="submit" value="Create report" ><br>
+    <br>
+    <a href="/accounting">Go back to the main accounting page</a>
+{% endblock %}

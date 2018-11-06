@@ -37,10 +37,11 @@ class OrderController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
-
+        //return $this->render('order/new.html.twig');
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($order);

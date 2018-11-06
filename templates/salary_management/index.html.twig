@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employee salaries{% endblock %}
+
+{% block body %}
+<h1>User</h1>
+    <h1>Employee salary management page.</h1>
+    <table class="table">
+    <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Salary</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Bob</td>
+        <td>1500</td>
+        <td><input type="submit" value="Edit"></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Bob2</td>
+        <td>900</td>
+        <td><input type="submit" value="Edit"></td>
+    </tr>
+        <tr>
+        <td>3</td>
+        <td>Bob3</td>
+        <td>1000</td>
+        <td><input type="submit" value="Edit"></td>
+    </tr>
+    </table>
+    <a href="/accounting">Go back to the main accounting page</a>
+<br>
+{% endblock %}

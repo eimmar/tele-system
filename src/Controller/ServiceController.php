@@ -15,6 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ServiceController extends AbstractController
 {
+     /**
+     * @Route("/service_list", name="service_list_index", methods="GET")
+     */
+    public function index_list_user(ServiceRepository $serviceRepository): Response
+    {
+        return $this->render('service/service_list.html.twig');
+    }
     /**
      * @Route("/", name="service_index", methods="GET")
      */

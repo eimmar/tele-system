@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage invoices{% endblock %}
+
+{% block body %}
+    <h1> User</h1>
+    <h1>Invoice management page</h1>
+
+    <input type="submit" value="Create invoice" >    
+    {#<button onclick="location.href='http://localhost:8000/invoice/new'" type="button">
+     Create an invoice</button>#}
+    <input type="submit" value="Show existing invoices" >
+    <br>
+     <a href="/accounting">Back to main accounting page</a>
+{% endblock %}

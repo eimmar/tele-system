@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Service index{% endblock %}
+
+{% block body %}
+<h1>User</h1>
+    <h1>This is a service price management page.</h1>
+    <table class="table">
+    <tr>
+            <th>Id</th>
+            <th>Service</th>
+            <th>Price</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>First Service</td>
+        <td>100</td>
+        <td><input type="submit" value="Edit"></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Second Service</td>
+        <td>200</td>
+        <td><input type="submit" value="Edit"></td>
+    </tr>
+        <tr>
+        <td>3</td>
+        <td>Third Service</td>
+        <td>300</td>
+        <td><input type="submit" value="Edit"></td>
+    </tr>
+    </table>
+    <a href="/accounting">Go back to the main accounting page</a>
+<br>
+{% endblock %}
