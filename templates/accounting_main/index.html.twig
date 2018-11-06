@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accounting system{% endblock %}
+
+{% block body %}
+    <h1> User</h1>
+    <h1>Accounting system main view</h1>
+    <br>
+    <button onclick="location.href='http://localhost:8000/invoice/manage'" type="button">
+     Manage invoices</button>
+    <button onclick="location.href='http://localhost:8000/salary_management'" type="button">
+     Manage employee salaries</button>
+    <button onclick="location.href='http://localhost:8000/order/new'" type="button">
+     Create an Internet service order</button>
+    <button onclick="location.href='http://localhost:8000/order/new'" type="button">
+     Create a Telecom service order</button>
+    <button onclick="location.href='http://localhost:8000/service/service_list'" type="button">
+     Manage service prices</button>
+    <button onclick="location.href='http://localhost:8000/report'" type="button">
+     Create accounting report</button>
+{% endblock %}

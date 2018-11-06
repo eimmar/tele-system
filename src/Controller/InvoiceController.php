@@ -46,6 +46,14 @@ class InvoiceController extends AbstractController
         ]);
     }
 
+     /**
+     * @Route("/manage", name="invoice_manage_index", methods="GET")
+     */
+    public function index_manage_user(InvoiceRepository $invoiceRepository): Response
+    {
+        return $this->render('invoice_manage/index.html.twig');
+    }
+
     /**
      * @Route("/{id}", name="invoice_show", methods="GET")
      */
