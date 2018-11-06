@@ -124,6 +124,14 @@ class User
         $this->messageRequests = new ArrayCollection();
     }
 
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getFirstName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

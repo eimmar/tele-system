@@ -33,6 +33,14 @@ class OrderStatus
         $this->orders = new ArrayCollection();
     }
 
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getCode();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
