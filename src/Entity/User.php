@@ -5,38 +5,35 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\InheritanceType;
+use \FOS\UserBundle\Model\User as FOSUser;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * Class User
+ * @InheritanceType("SINGLE_TABLE")
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="user")
  */
-class User
+class User extends FOSUser
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
-    private $id;
-
+    protected $id;
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", nullable=false)
+     * @var string
      */
-    private $firstName;
+    protected $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $lastName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $passwordHash;
+    protected $lastName;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -47,11 +44,6 @@ class User
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $gender;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $confirmationToken;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -99,19 +91,14 @@ class User
     private $isBlocked;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
      */
-    private $roles;
+    protected $dateCreated;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateCreated;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateUpdated;
+    protected $dateUpdated;
 
     /**
      * @ORM\Column(type="datetime")
@@ -120,6 +107,7 @@ class User
 
     public function __construct()
     {
+        parent::__construct();
         $this->orders = new ArrayCollection();
         $this->messageRequests = new ArrayCollection();
     }
@@ -130,11 +118,6 @@ class User
     public function __toString()
     {
         return $this->getFirstName();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getFirstName(): ?string
@@ -161,30 +144,6 @@ class User
         return $this;
     }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPasswordHash(): ?string
-    {
-        return $this->passwordHash;
-    }
-
-    public function setPasswordHash(string $passwordHash): self
-    {
-        $this->passwordHash = $passwordHash;
-
-        return $this;
-    }
-
     public function getAge(): ?int
     {
         return $this->age;
@@ -205,18 +164,6 @@ class User
     public function setGender(?string $gender): self
     {
         $this->gender = $gender;
-
-        return $this;
-    }
-
-    public function getConfirmationToken(): ?string
-    {
-        return $this->confirmationToken;
-    }
-
-    public function setConfirmationToken(?string $confirmationToken): self
-    {
-        $this->confirmationToken = $confirmationToken;
 
         return $this;
     }
@@ -363,18 +310,6 @@ class User
     public function setIsBlocked(bool $isBlocked): self
     {
         $this->isBlocked = $isBlocked;
-
-        return $this;
-    }
-
-    public function getRoles(): ?string
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(string $roles): self
-    {
-        $this->roles = $roles;
 
         return $this;
     }
