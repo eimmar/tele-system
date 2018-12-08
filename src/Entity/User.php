@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InheritanceType;
 use \FOS\UserBundle\Model\User as FOSUser;
+use FOS\UserBundle\Model\UserInterface;
 
 /**
  * Class User
@@ -105,19 +106,18 @@ class User extends FOSUser
      */
     private $lastVisitDate;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ContactInfo", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var Collection
+     */
+    protected $contactInfos;
+
     public function __construct()
     {
         parent::__construct();
         $this->orders = new ArrayCollection();
         $this->messageRequests = new ArrayCollection();
-    }
-
-    /**
-     * @return null|string
-     */
-    public function __toString()
-    {
-        return $this->getFirstName();
+        $this->contactInfos = new ArrayCollection();
     }
 
     public function getFirstName(): ?string
@@ -348,5 +348,77 @@ class User extends FOSUser
         $this->lastVisitDate = $lastVisitDate;
 
         return $this;
+    }
+
+    /**
+     * @param string $email
+     * @return $this|static
+     */
+    public function setEmail($email)
+    {
+        $this->setUsername($email);
+        $this->setUsernameCanonical($email);
+        return parent::setEmail($email);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->contactInfos;
+    }
+    /**
+     * @param Collection $contactInfos
+     * @return User
+     */
+    public function setAddresses(Collection $contactInfos): User
+    {
+        $this->contactInfos = $contactInfos;
+        return $this;
+    }
+    /**
+     * @param ContactInfo $contactInfo
+     * @return $this
+     */
+    public function addAddress(ContactInfo $contactInfo)
+    {
+        if (!$this->contactInfos->contains($contactInfo)) {
+            $this->contactInfos->add($contactInfo);
+            $contactInfo->setUser($this);
+        }
+        return $this;
+    }
+    /**
+     * @param ContactInfo $contactInfo
+     * @return $this
+     */
+    public function removeAddress(ContactInfo $contactInfo)
+    {
+        $this->contactInfos->removeElement($contactInfo);
+        return $this;
+    }
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->setDateUpdated(new \DateTime('now'));
+        $this->setUsername($this->getEmail());
+        $this->setUsernameCanonical($this->getEmail());
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->setDateCreated(new \DateTime('now'))
+            ->setDateUpdated(new \DateTime('now'))
+            ->setIsBlocked(false)
+            ->setIsIndividual(true)
+            ->setSalary(0)
+            ->setAdditionalCompensation(0)
+            ->setLastVisitDate(new \DateTime('now'))
+            ->addRole(UserInterface::ROLE_DEFAULT);
     }
 }

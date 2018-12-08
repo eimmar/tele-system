@@ -8,7 +8,9 @@
         {% endblock %}
     </head>
     <body>
+    {{ include('includes/navbar.html.twig') }}
     <div class="container">
+        {{ include('includes/flashes.html.twig') }}
         <div class="row">
             <div class="col-lg-12">
                 <a href="/">Puslapis 1</a>
@@ -17,10 +19,11 @@
                 <a href="/">Puslapis 4</a>
                 <a href="/accounting">Accounting</a>
             </div>
+            {% block body %}{% endblock %}
         </div>
-        {% block body %}
-        {% endblock %}
     </div>
+    {{ include('includes/footer.html.twig') }}
+
     {% block javascripts %}
         <script src="{{ asset('build/js/main.js') }}"></script>
     {% endblock %}

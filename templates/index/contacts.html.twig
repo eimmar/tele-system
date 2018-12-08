@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'main.contacts'|trans }}{% endblock %}
+
+{% block body %}
+    <h1 class="card-header">
+        {{ 'main.contacts'|trans }}
+    </h1>
+    <table class="table">
+    <tbody>
+    <tr>
+        <th>{{ 'main.contact.text'|trans }}</th>
+        <td>{{ 'main.contact.e.name'|trans }}</td>
+        <td>{{ 'main.contact.a.name'|trans }}</td>
+        <td>{{ 'main.contact.t.name'|trans }}</td>
+        <td>{{ 'main.contact.n.name'|trans }}</td>
+    </tr>
+    <tr>
+        <th>{{ 'main.contact.text1'|trans}}</th>
+        <td>{{ 'main.contact.e.lastname'|trans }}</td>
+        <td>{{ 'main.contact.a.lastname'|trans }}</td>
+        <td>{{ 'main.contact.t.lastname'|trans }}</td>
+        <td>{{ 'main.contact.n.lastname'|trans }}</td>
+    </tr>
+    <tr>
+        <th>{{ 'main.contact.text2'|trans }}</th>
+        <td>{{ 'main.contact.e.group'|trans }}</td>
+        <td>{{ 'main.contact.a.group'|trans }}</td>
+        <td>{{ 'main.contact.t.group'|trans }}</td>
+        <td>{{ 'main.contact.n.group'|trans }}</td>
+    </tr>
+    <tr>
+        <th>{{ 'main.contact.text3'|trans }}</th>
+        <td>{{ 'main.contact.e.trello'|trans }}</td>
+        <td>{{ 'main.contact.a.trello'|trans }}</td>
+        <td>{{ 'main.contact.t.trello'|trans }}</td>
+        <td>{{ 'main.contact.n.trello'|trans }}</td>
+    </tr>
+    </tbody>
+    </table>
+{% endblock %}

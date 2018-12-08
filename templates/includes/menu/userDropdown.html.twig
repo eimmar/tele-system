@@ -1,0 +1,17 @@
+<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a href="{{ path('fos_user_profile_show') }}" class="dropdown-item">Profile</a>
+    <a href="{{ path('fos_user_profile_edit') }}" class="dropdown-item">Settings</a>
+    {% set is_admin = 0 %}
+    {% for my_var in app.user.roles %}
+        {% if my_var == "ROLE_SUPER_ADMIN" %}
+            {% set is_admin = 1 %}
+        {% endif %}
+        {% if my_var == 'ROLE_ADMIN' %}
+            {% set is_admin = 1 %}
+        {% endif %}
+    {% endfor %}
+    {% if is_admin == 1 %}
+        <a href="{{ path('sonata_admin_dashboard') }}" class="dropdown-item">admin</a>
+    {% endif %}
+    <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+</div>

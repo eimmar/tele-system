@@ -1,0 +1,16 @@
+<td class="sonata-ba-list-field sonata-ba-list-field-{{ field_description.type }}" objectId="{{ admin.id(object) }}"{% if field_description.options.row_align is defined %} style="text-align:{{ field_description.options.row_align }}"{% endif %}>
+    {% set route = field_description.options.route.name|default(null) %}
+
+    {% if
+        field_description.options.identifier is defined
+        and route
+        and admin.hasRoute(route)
+        and admin.hasAccess(route, route in ['show', 'edit'] ? object : null)
+    %}
+    <a class="sonata-link-identifier" href="{{ admin.generateObjectUrl(route, object, field_description.options.route.parameters) }}">
+        {{ value|join(',') }}
+    </a>
+    {% else %}
+        {{ value|join(',') }}
+    {% endif %}
+</td>

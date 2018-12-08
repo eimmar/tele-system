@@ -42,6 +42,12 @@ class ContactInfo
      */
     private $city;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="addresses")
+     * @var User
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,7 +70,7 @@ class ContactInfo
         return $this->street;
     }
 
-    public function setStreet(string $street): self
+    public function setStreet(?string $street): self
     {
         $this->street = $street;
 
@@ -76,7 +82,7 @@ class ContactInfo
         return $this->postalCode;
     }
 
-    public function setPostalCode(string $postalCode): self
+    public function setPostalCode(?string $postalCode): self
     {
         $this->postalCode = $postalCode;
 
@@ -88,7 +94,7 @@ class ContactInfo
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(string $phoneNumber): self
+    public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 
@@ -104,6 +110,23 @@ class ContactInfo
     {
         $this->city = $city;
 
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+    /**
+     * @param User $user
+     * @return ContactInfo
+     */
+    public function setUser(User $user): ContactInfo
+    {
+        $this->user = $user;
         return $this;
     }
 }

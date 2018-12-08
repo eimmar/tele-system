@@ -29,3 +29,22 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Form Type Extensions
+    App\Form\Extension\ProfileFormTypeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: FOS\UserBundle\Form\Type\ProfileFormType }
+
+    App\Form\Extension\RegistrationFormTypeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: FOS\UserBundle\Form\Type\RegistrationFormType }
+    # End of Form Type Extensions
+
+ # Sonata admin bundle configuration
+    admin.user:
+        class: App\Admin\UserAdmin
+        arguments: [~, App\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: User }
+        public: true
+    # End of Sonata admin bundle configuration

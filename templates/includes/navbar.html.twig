@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-2 ">
+    <div class="container">
+        <a class="navbar-brand" href="{{ path('homepage') }}">{{ 'main.header'|trans }}</a>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{{ path('contacts') }}">Kontaktai</a>
+                <a class="nav-item nav-link"  href="{{ path('service_index') }}">Paslaugos</a>
+                {% if not app.user %}
+                    <a class="nav-item nav-link" href="{{ path('fos_user_registration_register') }}">Registruotis</a>
+                {% endif %}
+                {% if app.user %}
+                    <div class="dropdown">
+                        <a class="navbar-text dropdown-toggle mb-0" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ 'layout.logged_in_as'|trans({'%username%': app.user.firstname}, 'FOSUserBundle') }}
+                        </a>
+                        {{ include('includes/menu/userDropdown.html.twig') }}
+                    </div>
+                    {{ include('includes/menu/arrangement.html.twig') }}
+                {% else %}
+                    <a class="nav-item nav-link" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    <a class="nav-item nav-link" href="{{ path('fos_user_resetting_request') }}">{{ 'login.forgot_password'|trans }}</a>
+                {% endif %}
+            </div>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>

@@ -110,6 +110,9 @@
     "nikic/php-parser": {
         "version": "v4.0.3"
     },
+    "ninsuo/symfony-collection": {
+        "version": "2.1.30"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
@@ -175,6 +178,9 @@
     },
     "sonata-project/doctrine-extensions": {
         "version": "1.1.2"
+    },
+    "sonata-project/doctrine-orm-admin-bundle": {
+        "version": "3.6.3"
     },
     "sonata-project/exporter": {
         "version": "1.9.1"
