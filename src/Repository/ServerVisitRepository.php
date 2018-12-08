@@ -19,6 +19,25 @@ class ServerVisitRepository extends ServiceEntityRepository
         parent::__construct($registry, ServerVisit::class);
     }
 
+    /**
+     * @param ServerVisit $visit
+     * @return ServerVisit|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function similarVisitExists(ServerVisit $visit)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.ip = :ip')
+            ->andWhere('s.visitDate = :visitDate')
+            ->setParameters(
+                [
+                    'ip' => $visit->getIp(),
+                    'visitDate' => $visit->getVisitDate()
+                ]
+            )
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 //    /**
 //     * @return ServerVisit[] Returns an array of ServerVisit objects
 //     */

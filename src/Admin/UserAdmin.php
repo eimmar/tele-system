@@ -26,16 +26,26 @@ use Symfony\Component\Validator\Constraints\Email;
 class UserAdmin extends AbstractAdmin
 {
     /**
+     * @var User
+     */
+    private $currentUser;
+
+    /**
      * @return array
      */
     private function getRoles()
     {
-        return [
+        $roles = [
             'ROLE_USER' => 'ROLE_USER',
-            'ROLE_MANAGER' => 'ROLE_MANAGER',
-            'ROLE_ADMIN' => 'ROLE_ADMIN',
-            'ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN',
+            'ROLE_MANAGER' => 'ROLE_MANAGER'
         ];
+
+        if ($this->hasRole('ROLE_SUPER_ADMIN')) {
+            $roles['ROLE_ADMIN'] = 'ROLE_ADMIN';
+            $roles['ROLE_SUPER_ADMIN'] = 'ROLE_SUPER_ADMIN';
+        }
+
+        return $roles;
     }
 
     /**
@@ -58,25 +68,27 @@ class UserAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $form)
     {
-        $form->add('email', TextType::class, ['constraints' => new Email()])
-            ->add('firstName', TextType::class)
-            ->add('lastName', TextType::class, ['required' => false])
-            ->add('enabled', CheckboxType::class, ['required' => false]);
+        $form->add('email', TextType::class, ['constraints' => new Email(), 'label' => 'El. Paštas'])
+            ->add('firstName', TextType::class, ['label' => 'Vardas'])
+            ->add('lastName', TextType::class, ['required' => false, 'label' => 'Pavardė'])
+            ->add('enabled', CheckboxType::class, ['required' => false, 'label' => 'Aktyvus'])
+            ->add('isBlocked', CheckboxType::class, ['required' => false, 'label' => 'Užblokuotas']);
 
-//        if ($this->isCurrentUserSuperAdmin()) {
+        if ($this->hasRole('ROLE_ADMIN')) {
             $form->add('roles', ChoiceType::class,
                 [
                     'choices' => $this->getRoles(),
                     'multiple' => true,
+                    'label' => 'Prieigos teisės'
                 ]
             );
-//        }
+        }
 
         $form->add('addresses', CollectionType::class,
             [
                 'entry_type'    => ContactInfoType::class,
                 'label'         => 'Adresai',
-                'entry_options' => ['label' => 'profile.show.address'],
+                'entry_options' => ['label' => 'Adresai'],
                 'required'      => false,
                 'allow_add'     => true,
                 'allow_delete'  => true,
@@ -90,10 +102,10 @@ class UserAdmin extends AbstractAdmin
                 [
                     'type' => PasswordType::class,
                     'options' => ['translation_domain' => 'FOSUserBundle'],
-                    'invalid_message' => 'fos_user.password.mismatch',
+                    'invalid_message' => 'Slaptažodžiai nesutampa',
                     'required' => true,
-                    'first_options'  => ['label' => 'form.password'],
-                    'second_options' => ['label' => 'form.password_confirmation'],
+                    'first_options'  => ['label' => 'Slaptažodis'],
+                    'second_options' => ['label' => 'Pakartoti slaptažodį'],
                 ]
             );
         }
@@ -105,11 +117,12 @@ class UserAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter->add('id')
-            ->add('email')
-            ->add('firstName')
-            ->add('lastName')
-            ->add('roles')
-            ->add('enabled');
+            ->add('email', null, ['label' => 'El. paštas'])
+            ->add('firstName', null, ['label' => 'Vardas'])
+            ->add('lastName', null, ['label' => 'Pavardė'])
+            ->add('roles', null, ['label' => 'Prieigos teisės'])
+            ->add('enabled', null, ['label' => 'Aktyvus'])
+            ->add('isBlocked', null, ['label' => 'Užblokuotas']);
     }
 
     /**
@@ -118,11 +131,12 @@ class UserAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list)
     {
         $list->addIdentifier('id')
-            ->addIdentifier('email')
-            ->addIdentifier('firstName')
-            ->addIdentifier('lastName')
-            ->addIdentifier('roles', null, ['template' => 'admin/role_list.html.twig'])
-            ->addIdentifier('enabled');
+            ->addIdentifier('email', null, ['label' => 'El. paštas'])
+            ->addIdentifier('firstName', null, ['label' => 'Vardas'])
+            ->addIdentifier('lastName', null, ['label' => 'Pavardė'])
+            ->addIdentifier('roles', null, ['template' => 'admin/role_list.html.twig', 'label' => 'Prieigos teisės'])
+            ->addIdentifier('enabled', null, ['label' => 'Aktyvus'])
+            ->addIdentifier('isBlocked', null, ['label' => 'Užblokuotas']);
     }
 
     /**
@@ -142,17 +156,20 @@ class UserAdmin extends AbstractAdmin
     }
 
     /**
+     * @param string $role
      * @return bool
      */
-    private function isCurrentUserSuperAdmin()
+    private function hasRole($role)
     {
-        /** @var User $user */
-        $user = $this->getConfigurationPool()
-            ->getContainer()
-            ->get('security.token_storage')
-            ->getToken()
-            ->getUser();
+        if (!$this->currentUser) {
+            /** @var User $user */
+            $this->currentUser = $this->getConfigurationPool()
+                ->getContainer()
+                ->get('security.token_storage')
+                ->getToken()
+                ->getUser();
+        }
 
-        return $user->isSuperAdmin();
+        return $this->currentUser->hasRole($role);
     }
 }

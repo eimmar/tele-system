@@ -45,6 +45,35 @@ services:
         class: App\Admin\UserAdmin
         arguments: [~, App\Entity\User, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: User }
+            - { name: sonata.admin, manager_type: orm, label: Naudotojai }
+        public: true
+
+    admin.server_visit:
+        class: App\Admin\ServerVisitAdmin
+        arguments: [~, App\Entity\ServerVisit, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Svečių apsilankymai }
+        public: true
+
+    admin.user_visits:
+        class: App\Admin\UserVisitsAdmin
+        arguments: [~, App\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Naudotojų apsilankymai }
         public: true
     # End of Sonata admin bundle configuration
+
+
+
+# Event subscriber configuration
+    app_administration.request:
+        class: App\EventSubscriber\RequestSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+# Event subscriber configuration
+
+# Service configuration
+    app_administration.visit_tracker:
+        class: App\Service\VisitTracker
+# Service configuration
