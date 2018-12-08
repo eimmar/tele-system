@@ -181,7 +181,7 @@ class UserAdmin extends AbstractAdmin
     private function canChangeRoles()
     {
         return $this->hasRole('ROLE_SUPER_ADMIN')
-        || ($this->hasRole('ROLE_MANAGER')
+        || (($this->hasRole('ROLE_MANAGER') || $this->hasRole('ROLE_ADMIN'))
                 && (!$this->getSubject()->hasRole('ROLE_ADMIN')) && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN'));
 
     }
