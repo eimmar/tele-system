@@ -70,11 +70,14 @@ class UserAdmin extends AbstractAdmin
     {
         $form->add('email', TextType::class, ['constraints' => new Email(), 'label' => 'El. Paštas'])
             ->add('firstName', TextType::class, ['label' => 'Vardas'])
-            ->add('lastName', TextType::class, ['required' => false, 'label' => 'Pavardė'])
-            ->add('enabled', CheckboxType::class, ['required' => false, 'label' => 'Aktyvus'])
-            ->add('isBlocked', CheckboxType::class, ['required' => false, 'label' => 'Užblokuotas']);
+            ->add('lastName', TextType::class, ['required' => false, 'label' => 'Pavardė']);
 
-        if ($this->hasRole('ROLE_ADMIN')) {
+        if ($this->canBlock()) {
+            $form->add('isBlocked', CheckboxType::class, ['required' => false, 'label' => 'Užblokuotas'])
+                ->add('enabled', CheckboxType::class, ['required' => false, 'label' => 'Aktyvus']);
+        }
+
+        if ($this->canChangeRoles()) {
             $form->add('roles', ChoiceType::class,
                 [
                     'choices' => $this->getRoles(),
@@ -134,7 +137,7 @@ class UserAdmin extends AbstractAdmin
             ->addIdentifier('email', null, ['label' => 'El. paštas'])
             ->addIdentifier('firstName', null, ['label' => 'Vardas'])
             ->addIdentifier('lastName', null, ['label' => 'Pavardė'])
-            ->addIdentifier('roles', null, ['template' => 'admin/role_list.html.twig', 'label' => 'Prieigos teisės'])
+            ->addIdentifier('roles', null, ['templat/admin/app/user/2/edite' => 'admin/role_list.html.twig', 'label' => 'Prieigos teisės'])
             ->addIdentifier('enabled', null, ['label' => 'Aktyvus'])
             ->addIdentifier('isBlocked', null, ['label' => 'Užblokuotas']);
     }
@@ -169,7 +172,29 @@ class UserAdmin extends AbstractAdmin
                 ->getToken()
                 ->getUser();
         }
-
         return $this->currentUser->hasRole($role);
+    }
+
+    /**
+     * @return bool
+     */
+    private function canChangeRoles()
+    {
+        return $this->hasRole('ROLE_SUPER_ADMIN')
+        || ($this->hasRole('ROLE_MANAGER')
+                && (!$this->getSubject()->hasRole('ROLE_ADMIN')) && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN'));
+
+    }
+
+    /**
+     * @return bool
+     */
+    private function canBlock()
+    {
+        $managerToAdmin = $this->hasRole('ROLE_MANAGER') &&
+            (!$this->getSubject()->hasRole('ROLE_ADMIN') && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN'));
+        $adminToSuperAdmin = $this->hasRole('ROLE_ADMIN') && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN');
+
+        return $managerToAdmin || $adminToSuperAdmin || $this->hasRole('ROLE_SUPER_ADMIN');
     }
 }

@@ -61,6 +61,6 @@ class RequestSubscriber implements EventSubscriberInterface
             $route = $this->router->generate('homepage');
             $event->setResponse(new RedirectResponse($route));
         }
-        $event->stopPropagation();
+//        $event->stopPropagation();
     }
 }

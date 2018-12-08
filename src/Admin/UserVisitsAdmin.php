@@ -17,6 +17,10 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class UserVisitsAdmin extends AbstractAdmin
 {
+    protected $baseRouteName = 'admin_app_user-visits';
+
+    protected $baseRoutePattern = '/app/user-visits';
+
     public function configureRoutes(RouteCollection $collection)
     {
         $collection->remove('create');
