@@ -8,21 +8,19 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181023153749 extends AbstractMigration
+final class Version20181209123939 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE user CHANGE name first_name VARCHAR(255) NOT NULL, CHANGE surname last_name VARCHAR(255) DEFAULT NULL');
+        $this->addSql("INSERT INTO order_status (code) VALUES ('Ruošiamas'),('Pateiktas'),('Vykdomas'),('Atšauktas'),('Įvykdytas')");
+        $this->addSql("INSERT INTO request_status (code) VALUES ('Neperžiūrėtas'),('Peržiūrėtas')");
     }
 
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE user CHANGE first_name name VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci, CHANGE last_name surname VARCHAR(255) DEFAULT NULL COLLATE utf8mb4_unicode_ci');
+        $this->addSql("DELETE FROM order_status WHERE code IN ('Ruošiamas', 'Pateiktas', 'Vykdomas', 'Atšauktas', 'Įvykdytas')");
+        $this->addSql("DELETE FROM request_status WHERE code IN ('Neperžiūrėtas', 'Peržiūrėtas')");
     }
 }
