@@ -1,0 +1,165 @@
+profile:
+    show:
+        firstName: Vardas
+        lastName: Pavardė
+        hello: Sveiki,
+        addresses: Adresai
+        address: Adresas
+
+
+login:
+    forgot_password: Pamiršote slaptažodį?
+
+address:
+    street: Gatvė
+    comment: Komentaras
+    city: Miestas
+    please_select: Pasirinkite
+
+service:
+    title: Paslaugos
+    form:
+        name: Paslaugos pavadinimas
+        description: Paslaugos aprašymas
+        price_from: Kaina (nuo)
+        price_to: Kaina (iki)
+        price_from_to: Kaina (nuo-iki)
+        duration_from: Atlikimo trukmė minutėmis (nuo)
+        duration_to: Atlikimo trukmė minutėmis (iki)
+        duration_from_to: Atlikimo trukmė minutėmis (nuo-iki)
+        service_type: Paslaugos tipas
+        is_active: Aktyvi
+        search: Paieška
+        search_submit: Ieškoti
+        date_created: Sukūrimo data
+        date_updated: Atnaujinimo data
+    list:
+        price_range: Kaina (EUR)
+        duration_range: Trukmė (h)
+        total: Iš viso %s
+    action:
+        index: Grįžti į sąrašą
+
+list:
+    actions: Veiksmai
+    no_results_found: Įrašų nėra
+
+    action:
+        show: Atidaryti
+
+service_type:
+    no_category_found: Kategorijų nerasta
+    all_types: Visos paslaugos
+    form:
+        name: Paslaugos tipo pavadinimas
+
+config:
+    form:
+        name: Nustatymas
+        value: Nustatymo reikšmė
+        description: Aprašymas
+        user_changed_by: Paskutinį kartą keitė
+
+visit:
+    price: Apytikslė kaina
+    duration: Numatoma darbų trukmė
+    edit: Vizito redagavimas
+    title: Vizitai
+    title1: Vizitas
+    new: Naujas vizitas
+    no: Nerasta jokių įrašų
+    action:
+        cancel: Atšaukti
+        default: Vizitas (%s)
+        add: Užsirašyti
+        remove: Šalinti
+        subimt: Išsaugoti
+        edit: Redaguoti
+        index: Grįžti į sąrašą
+    arrange:
+        arrangement_no_services_added: Į vizitą nėra įtraukta jokių paslaugų.
+        arrangement_no_vehicle_available: Prieš užsirašydamį vizitui turite susikurti automobilį.
+        arrangement_submitted: Vizitas suplanuotas sėkmingai!
+        arrangement_cancelled: Vizitas atšauktas
+    service:
+        are_you_sure: Ar tikrai norite pašalinti "%s" iš paslaugų sąrašo?
+
+vehicle:
+    form:
+        power_Kw: Galia (Kw)
+        engine_capacity: Darbinis tūris
+        year_made: Pagaminimo metai
+        month_made: Pagaminimo mėnuo
+        date_created: Sukūrimo data
+        date_updated: Atnaujinimo data
+    title: Automobiliai
+    title1: Automobilis
+    new: Naujas automobilis
+    edit: Automobilio redagavimas
+    no: Nerasta jokių įrašų
+    actions: Veiksmai
+    action:
+        delete: Ištrinti
+        new: Sukurti naują
+        index: Grįžti į sąrašą
+        edit: Redaguoti
+        show: Atidaryti
+        confirm_delete: Ar tikrai norite pašalinti šį automobilį?
+
+    delete:
+        has_unfinished_visits: Šį automobilį Jūs esate užrašę aptarnavimui mūsų servise. Norint ištrinti šį automobilį pirma turi būti užbaigti arba atšaukti visi su automobiliu susiję suplanuoti vizitai.
+main:
+    contacts: Kontaktai
+    contact:
+        e:
+            name: Eimantas
+            lastname: Markevičius
+#            trello: eimantas26
+            group: IFF-6/11
+#        a:
+#          name: Andrius
+#          lastname: Simanaitis
+#          trello: andriussimanaitis
+#          group: IFF-6/2
+#        t:
+#            name: Tomas
+#            lastname: Mažvila
+#            trello: kugismugis
+#            group: IFF-6/13
+#        n:
+#          name: Neringa
+#          lastname: Laimutytė
+#          trello: neringalaimutyte
+#          group: IFF-6/5
+        text: Vardas
+        text1: Pavardė
+        text2: Grupė
+#        text3: Trello vardas
+    header: Tele-system
+    main_header: Sveiki atvykę į Tele-system!
+    content:
+        paragraph_1: '"Tele-system" – nuo 2018 m. didžiuosiuose lietuvos miestuose veikiantis interneto ir telekomunikacijų paslaugų tiekėjas.'
+        paragraph_2: Nesvarbu kur gyvenate – jums turime geriausią sprendimą – nuo mobiliojo iki šviesolaidinio ir net hibridinio.
+        paragraph_3: Mes nuolat investuojame į technologijas, kad galėtume jums užtikrinti greičiausią ir geriausią interneto sprendimą.
+        paragraph_4: Neapsisprendžiate, kokio interneto greičio jums reikia? „Tele-system“ konsultantai padės išsirinkti labiausiai jūsų poreikius atitinkantį planą.
+        paragraph_5: Mes sukūrėme greito, stabilaus ir neriboto šviesolaidinio interneto tinklą, todėl jūs galite be trikdžių stebėti aukščiausios raiškos vaizdo įrašus ir tiesiogines transliacijas, įgausite pranašumą žaisdami kompiuterinius žaidimus. Pasieksite net iki 1 Gb/s interneto greitį Prisijunkite ir jūs prie populiariausio interneto tinklo Lietuvoje.
+        paragraph_6: Esame pripažinti viena iš sėkmingiausiai dirbančių ir sparčiausiai besivystančių Lietuvos bendrovių.
+
+registration:
+    subimt: Registruotis
+
+# Sonata admin translations
+User: Vartotojai
+Service: Paslaugos
+Configuration: Puslapio nustatymai
+Duration From: Trukmė min (nuo)
+Duration To: Trukmė min (iki)
+Price From: Kaina EUR (nuo)
+Price To: Kaina EUR (iki)
+Service Type: Paslaugos tipas
+Is Active: Aktyvi
+Name: Pavadinimas
+
+#misc one word translations and such
+Yes: Taip
+No: Ne

@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\MessageRequest;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,6 +19,17 @@ class MessageRequestRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, MessageRequest::class);
+    }
+
+    /**
+     * @param User $serviceType
+     * @return QueryBuilder
+     */
+    public function getAllByUserQuery(User $user)
+    {
+        return $this->createQueryBuilder('mr')
+            ->where('mr.user = :user')
+            ->setParameter('user', $user);
     }
 
 //    /**

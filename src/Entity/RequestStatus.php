@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RequestStatus
 {
+    const STATUS_UNSEEN = 'Neperžiūrėtas';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -27,6 +29,14 @@ class RequestStatus
      * @ORM\OneToMany(targetEntity="App\Entity\MessageRequest", mappedBy="status")
      */
     private $messageRequests;
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getCode();
+    }
 
     public function __construct()
     {

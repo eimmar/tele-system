@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="App\Repository\MessageRequestRepository")
  */
 class MessageRequest
@@ -87,5 +88,13 @@ class MessageRequest
         $this->user = $user;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->setDateCreated(new \DateTime());
     }
 }

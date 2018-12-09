@@ -1,11 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New MessageRequest{% endblock %}
+{% block title %}Nauja žinutė{% endblock %}
+{% block mainHeader %}<h1>Nauja žinutė</h1>{% endblock %}
 
 {% block body %}
-    <h1>Create new MessageRequest</h1>
-
     {{ include('message_request/_form.html.twig') }}
-
-    <a href="{{ path('message_request_index') }}">back to list</a>
+    <a href="{{ path('message_request_index') }}">Atgal į sąrašą</a>
 {% endblock %}

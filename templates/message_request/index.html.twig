@@ -1,37 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MessageRequest index{% endblock %}
+{% block title %} Žinutės {% endblock %}
+
+{% block mainHeader %}<h1>Žinutės</h1>{% endblock %}
 
 {% block body %}
-    <h1>MessageRequest index</h1>
-
-    <table class="table">
+    <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Message</th>
-                <th>DateCreated</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th{% if pagination.isSorted('mr.id') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Id', 'mr.id') }}
+            </th>
+            <th{% if pagination.isSorted('mr.message') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Pranešimas', 'mr.message') }}
+            </th>
+            <th{% if pagination.isSorted('mr.status') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Statusas', 'mr.status') }}
+            </th>
+            <th{% if pagination.isSorted('mr.dateCreated') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Sukūrimo data', 'mr.dateCreated') }}
+            </th>
+            <th>Veiksmai</th>
+        </tr>
         </thead>
         <tbody>
-        {% for message_request in message_requests %}
-            <tr>
-                <td>{{ message_request.id }}</td>
-                <td>{{ message_request.message }}</td>
-                <td>{{ message_request.dateCreated ? message_request.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
+        {% for message in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
                 <td>
-                    <a href="{{ path('message_request_show', {'id': message_request.id}) }}">show</a>
-                    <a href="{{ path('message_request_edit', {'id': message_request.id}) }}">edit</a>
+                    <a href="{{ path('message_request_show', {'id': message.id}) }}">
+                        {{ message.id }}
+                    </a>
+                </td>
+                <td>{{ message.message }}</td>
+                <td>{{ message.status }}</td>
+                <td>{{ message.dateCreated|date('Y-m-d H:i:s') }}</td>
+                <td>
+                    <a href="{{ path('message_request_show', {'id': message.id}) }}">{{ 'list.action.show'|trans }}</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="11">{{ 'list.no_results_found'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <div class="col-lg-12">
+        <a href="{{ path('message_request_new') }}">Kurti naują</a>
+    </div>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
-    <a href="{{ path('message_request_new') }}">Create new</a>
+    <div class="alert alert-dark count">
+        {{ 'service.list.total'|trans|format(pagination.getTotalItemCount) }}
+    </div>
 {% endblock %}

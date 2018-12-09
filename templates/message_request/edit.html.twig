@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit MessageRequest{% endblock %}
+{% block title %}Redaguoti žinutę{% endblock %}
+{% block mainHeader %}<h1>Redaguoti žinutę</h1>{% endblock %}
 
 {% block body %}
-    <h1>Edit MessageRequest</h1>
-
     {{ include('message_request/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('message_request_index') }}">back to list</a>
-
+    <div class="col-lg-12">
+        <a href="{{ path('message_request_index') }}">Atgal į sąrašą</a>
+    </div>
     {{ include('message_request/_delete_form.html.twig') }}
 {% endblock %}

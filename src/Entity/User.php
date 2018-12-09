@@ -368,6 +368,7 @@ class User extends FOSUser
     {
         return $this->contactInfos;
     }
+
     /**
      * @param Collection $contactInfos
      * @return User
@@ -377,6 +378,7 @@ class User extends FOSUser
         $this->contactInfos = $contactInfos;
         return $this;
     }
+
     /**
      * @param ContactInfo $contactInfo
      * @return $this
@@ -389,6 +391,7 @@ class User extends FOSUser
         }
         return $this;
     }
+
     /**
      * @param ContactInfo $contactInfo
      * @return $this
@@ -398,6 +401,15 @@ class User extends FOSUser
         $this->contactInfos->removeElement($contactInfo);
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isAccountNonLocked()
+    {
+        return !$this->getIsBlocked();
+    }
+
     /**
      * @ORM\PreUpdate
      */
@@ -407,6 +419,7 @@ class User extends FOSUser
         $this->setUsername($this->getEmail());
         $this->setUsernameCanonical($this->getEmail());
     }
+
     /**
      * @ORM\PrePersist
      */
