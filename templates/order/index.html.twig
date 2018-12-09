@@ -3,12 +3,8 @@
 {% block title %}Order index{% endblock %}
 
 {% block body %}
-    <h1>Order index</h1>
+    <h1>Main order</h1>
 
-
-<button onclick="location.href='http://localhost:8000/order/1'" type="button">
-     View my orders</button>
-{# 
     <table class="table">
         <thead>
             <tr>
@@ -19,23 +15,50 @@
                 <th>Tax</th>
                 <th>DateCreated</th>
                 <th>DateModified</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for order in orders %}
+        {# {% for order in orders %} #}
             <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.startDate ? order.startDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ order.endDate ? order.endDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ order.totalSum }}</td>
-                <td>{{ order.tax }}</td>
-                <td>{{ order.dateCreated ? order.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ order.dateModified ? order.dateModified|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('order_show', {'id': order.id}) }}">show</a>
-                    <a href="{{ path('order_edit', {'id': order.id}) }}">edit</a>
-                </td>
+                <td>{{ orders.id }}</td>
+                <td>{{ orders.startDate ? orders.startDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ orders.endDate ? orders.endDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ orders.totalSum }}</td>
+                <td>{{ orders.tax }}</td>
+                <td>{{ orders.dateCreated ? orders.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ orders.dateModified ? orders.dateModified|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        {# {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %} #}
+        </tbody>
+    </table> 
+
+<h1>Ordered items</h1>
+    <table class="table">
+       <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Service Type</th>
+                <th>Date from</th>
+                <th>Date to</th>
+                <th>Ordered item price</th>
+                <th>Delete action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set i = 0 %}
+        {% for orderedItem in orderedItems %}
+        {% set i = i + 1 %}
+            <tr>
+                <td>{{ i }}</td>
+                <td>{{ orderedItem.serviceType }}</td>
+                <td>{{ orderedItem.dateFrom ? orderedItem.dateFrom|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ orderedItem.dateTo ? orderedItem.dateTo|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ orderedItem.price }}</td>
+                <td> {{ include('order/_delete_form_order_item.html.twig') }}</td>
             </tr>
         {% else %}
             <tr>
@@ -43,7 +66,7 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table> #}
+    </table>
 
     {# <a href="{{ path('order_new') }}">Create new</a> #}
 {% endblock %}

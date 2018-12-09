@@ -53,7 +53,7 @@ class OrderItem
         return $this->id;
     }
 
-    public function getDateFrom(): ?\DateTimeInterface
+    public function getDateFrom()
     {
         return $this->dateFrom;
     }

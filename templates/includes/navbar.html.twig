@@ -5,6 +5,7 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{{ path('contacts') }}">Kontaktai</a>
                 <a class="nav-item nav-link"  href="{{ path('service_index') }}">Paslaugos</a>
+                <a class="nav-item nav-link"  href="{{ path('telecom_index') }}">Telecom</a>
                 {% if not app.user %}
                     <a class="nav-item nav-link" href="{{ path('fos_user_registration_register') }}">Registruotis</a>
                 {% endif %}

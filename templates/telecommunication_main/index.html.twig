@@ -8,6 +8,7 @@
     <br>
     <button onclick="location.href='http://localhost:8000/service/mobile'" type="button">
      Order mobile service plan</button>
-    <button onclick="location.href='http://localhost:8000/order/1'" type="button">
-     Order page</button>
+     <form action="http://localhost:8000/order/view" method="GET">
+    <input class="btn btn-primary" type="submit" value="View Order">
+     </form>
 {% endblock %}

@@ -3,13 +3,19 @@
 {% block title %}Service index{% endblock %}
 
 {% block body %}
-<h1>User</h1>
-    <h1>This is service page, pick service type to continue</h1>
-    <input type="submit" value="Service NR.1" >
-    <input type="submit" value="Service NR.2" >
-    <input type="submit" value="Service NR.3" >
-    <a href="/service/mobile">Mobile service</a>
-    {# <table class="table">
+    <h1>Mobile service order</h1>
+<form action="/service/mobile/order" method="POST">
+<div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="date-from">Date From</label>
+      <input type="date" class="form-control" id="date-from" name="date-from" required/>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="date-to">Date To</label>
+            <input type="date" class="form-control" id="date-to" name="date-to" required/>
+    </div>
+  </div>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -19,34 +25,35 @@
                 <th>MbLimit</th>
                 <th>MsgLimit</th>
                 <th>TalkMinuteLimit</th>
-                <th>SpeedMb</th>
-                <th>IsLimited</th>
-                <th>actions</th>
+                <th>Order Plan</th>
             </tr>
         </thead>
         <tbody>
-        {% for service in services %}
-            <tr>
-                <td>{{ service.id }}</td>
-                <td>{{ service.name }}</td>
-                <td>{{ service.price }}</td>
-                <td>{{ service.specialPrice }}</td>
-                <td>{{ service.mbLimit }}</td>
-                <td>{{ service.msgLimit }}</td>
-                <td>{{ service.talkMinuteLimit }}</td>
-                <td>{{ service.speedMb }}</td>
-                <td>{{ service.isLimited ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('service_show', {'id': service.id}) }}">show</a>
-                    <a href="{{ path('service_edit', {'id': service.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for service in services %}
+                <tr>
+                    <td>{{ service.id}}</td>
+                    <td>{{ service.name }}</td>
+                    <td>{{ service.price }}</td>
+                    <td>{{ service.specialPrice }}</td>
+                    <td>{{ service.mbLimit }}</td>
+                    <td>{{ service.msgLimit }}</td>
+                    <td>{{ service.talkMinuteLimit }}</td>
+                    <td>
+                    <label class="btn btn-primary">
+                         <input type="radio" name="service" autocomplete="off" value={{service.id}}> Pick<br>
+                    </label>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
         </tbody>
-    </table> #}
-<br>
-{% endblock %}
+    </table>
+    <div align="center">
+    <input class="btn btn-primary" type="submit" value="Order plan">
+    </div>
+    </form>
+            <br>
+        {% endblock %}

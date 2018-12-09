@@ -22,7 +22,7 @@ class OrderRepository extends ServiceEntityRepository
 //    /**
 //     * @return Order[] Returns an array of Order objects
 //     */
-    /*
+    
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('o')
@@ -34,17 +34,17 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+    
 
-    /*
+    
     public function findOneBySomeField($value): ?Order
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
+            ->innerJoin('App\Entity\User','u',Join::WITH, 'o.')
+            ->andWhere('o.user = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
+    
 }

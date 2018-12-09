@@ -3,12 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Service;
+use App\Entity\User;
+use App\Entity\Order;
+use App\Entity\OrderItem;
 use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
+use App\Repository\OrderRepository;
+use App\Repository\UserRepository;
+use App\Repository\OrderItemRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 /**
  * @Route("/service")
@@ -38,17 +45,87 @@ class ServiceController extends AbstractController
         return $this->render('service/index_admin.html.twig');
        // return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
     }
-
+    //Tadas
      /**
      * @Route("/mobile", name="service_mobile_index", methods="GET")
      */
     public function index_mobile_user(ServiceRepository $serviceRepository): Response
     {
-        return $this->render('service_mobile/index.html.twig');
-       // return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
+        return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
     }
 
+     //Tadas
+     /**
+     * @Route("/mobile/order", name="service_order", methods="POST")
+     */
+    public function order_service(ServiceRepository $serviceRepository, OrderRepository $orderRepository, Request $request): Response
+    {
+        $user = $this->getUser();
 
+      $serviceId = $request->request->get('service');
+            $service = $this->getDoctrine()
+            ->getRepository(Service::class)
+            ->find($serviceId);
+
+            if (!$service) {
+                throw $this->createNotFoundException(
+                    'No service found for id '.$serviceId
+                );
+            }
+
+        $total = $this->countPrice($request->request->get('date-from'),$request->request->get('date-to'),$service->getPrice());
+        //searching for users order by user id
+        //if found we dont need to create one
+        if($request->request->get('service') != NULL){
+            $orderItem = new OrderItem();
+            $orderItem->setPrice($total);
+
+            $dateFrom =  \DateTime::createFromFormat("Y-m-d",$request->request->get('date-from'));
+            var_dump($dateFrom);
+            $orderItem->setDateFrom($dateFrom);
+
+            $dateTo =  \DateTime::createFromFormat("Y-m-d",$request->request->get('date-to'));
+            $orderItem->setDateTo($dateTo);
+
+            $orderItem->setServiceType('Mobile service');
+          
+
+            $orderItem->setOriginalService($service);
+
+            $order = $orderRepository->findOneBy(['user' => $user]);
+
+            if (!$order) {
+                throw $this->createNotFoundException(
+                    'No service found for id '.$id
+                );
+            }
+            
+            $orderItem->setMainOrder($order);
+            //sukurti nauja order item 
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($orderItem);
+            $em->flush();
+            
+            return $this->redirectToRoute('user_orders');
+        }
+    }
+
+    public function countPrice($dateFrom,$dateTo, $price){
+        $year = date('Y', strtotime($dateTo)) - date('Y', strtotime($dateFrom));
+        if($year < 0){
+            return -1;
+        }
+        $total = $year*$price;
+        $month = date('m', strtotime($dateTo)) - date('m', strtotime($dateFrom));
+        if($month <= 0){
+            $total = $total + $price;
+        } else{
+            $total=$total+$month*$price;
+        }
+        return $total;
+    }
+
+    //Tadas
      /**
      * @Route("/admin/mobile", name="service_mobile_index_admin", methods="GET")
      */

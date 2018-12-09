@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Entity\OrderItem;
 use App\Form\OrderType;
 use App\Repository\OrderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,13 +56,36 @@ class OrderController extends AbstractController
         ]);
     }
 
-      /**
-     * @Route("/{id}", name="user_orders", methods="GET")
+
+   /**
+     * @Route("/orderedItem/{id}", name="delete_ordered_item", methods="DELETE")
+     */
+    public function delete_ordered_item(OrderRepository $orderRepository, Request $request, OrderItem $orderItem): Response
+    {
+        echo 'tadas';
+        if ($this->isCsrfTokenValid('delete'.$orderItem->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($orderItem);
+            $em->flush();
+        }
+        return $this->redirectToRoute('user_orders');
+        
+    }
+    /**
+     * @Route("/view", name="user_orders", methods="GET")
      */
     public function user_orders(OrderRepository $orderRepository): Response
     {
-       return $this->render('order/user_orders.html.twig');
-        return $this->render('order/index.html.twig', ['orders' => $orderRepository->findAll()]);
+        $user = $this->getUser();
+        if(!$user){
+            return $this->render('telecommunication_main/index.html.twig');
+        } else {
+            $orders = $orderRepository->findOneBy(['user' => $user]);
+        $orderedItems = $orders->getOrderItems();
+       //return $this->render('order/user_orders.html.twig');
+        return $this->render('order/index.html.twig', ['orders' => $orders, 'orderedItems'=> $orderedItems]);
+        }
+        
     }
     // /**
     //  * @Route("/{id}", name="order_show", methods="GET")

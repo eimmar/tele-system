@@ -19,6 +19,11 @@ class TelecomController extends AbstractController
      */
     public function index(): Response
     {
+        // $user = $this->getUser();
+        // $user->setRoles(array('ROLE_ADMIN'));
+        // $em = $this->getDoctrine()->getManager();
+        // $em->persist($user);
+        // $em->flush();
         return $this->render('telecommunication_main/index.html.twig');
     }
 
