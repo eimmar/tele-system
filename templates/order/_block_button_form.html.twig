@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('block_order', {'id': order.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_method" value="POST">
+    <input type="hidden" name="_token" value="{{ csrf_token('block' ~ order.id) }}">
+    <button class="btn">Block</button>
+</form>

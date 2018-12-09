@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
+use App\Entity\OrderStatus;
 use App\Form\OrderType;
 use App\Repository\OrderRepository;
+use App\Repository\OrderStatusRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +32,7 @@ class OrderController extends AbstractController
      */
     public function disapproved_list(OrderRepository $orderRepository): Response
     {
-        return $this->render('order/disapproved_orders.html.twig');
+        return $this->render('order/disapproved_orders.html.twig',['orders' => $orderRepository->findAll()]);
     }
 
     /**
@@ -71,6 +73,38 @@ class OrderController extends AbstractController
         return $this->redirectToRoute('user_orders');
         
     }
+
+    /**
+     * @Route("/approve/{id}", name="approve_order", methods="POST")
+     */
+    public function approve_order(OrderRepository $orderRepository,OrderStatusRepository $orderStatusRepository, Order $order,Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('approve'.$order->getId(), $request->request->get('_token'))) {
+            $orderStatus = $orderStatusRepository->findOneBy(['id'=>5]);
+            $order->setStatus($orderStatus);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($order);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('disapproved_orders');       
+    }
+     /**
+     * @Route("/block/{id}", name="block_order", methods="POST")
+     */
+    public function block_order(OrderRepository $orderRepository, OrderStatusRepository $orderStatusRepository, Order $order,Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('block'.$order->getId(), $request->request->get('_token'))) {
+            $orderStatus = $orderStatusRepository->findOneBy(['id'=>4]);
+            $order->setStatus($orderStatus);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($order);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('disapproved_orders');       
+    }
+
     /**
      * @Route("/view", name="user_orders", methods="GET")
      */
@@ -84,8 +118,7 @@ class OrderController extends AbstractController
         $orderedItems = $orders->getOrderItems();
        //return $this->render('order/user_orders.html.twig');
         return $this->render('order/index.html.twig', ['orders' => $orders, 'orderedItems'=> $orderedItems]);
-        }
-        
+        }       
     }
     // /**
     //  * @Route("/{id}", name="order_show", methods="GET")

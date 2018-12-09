@@ -3,28 +3,37 @@
 {% block title %}Order{% endblock %}
 
 {% block body %}
-<h1>ADMIN</h1>
-<h1>Disapproved orders list page</h1>
-<table class="table">
-<tr>
-    <td>ID</td>
-    <td>Username</td>
-    <td>Status</td>
-</tr>
-<tr>
-    <td>1</td>
-    <td>john</td>
-    <td>Waiting approval</td>
-    <td><input type="submit" value="Approve"></td>
-</tr>
-<tr>
-    <td>2</td>
-    <td>jade</td>
-    <td>Waiting approval</td>
-     <td><input type="submit" value="Approve"></td>
-</tr>
-</table>
-
-<br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>TotalSum</th>
+                <th>Tax</th>
+                <th>Status</th>
+                <th>Approve</th>
+                <th>Block</th>
+            </tr>
+        </thead>
+        <tbody>
+         {% for order in orders %} 
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.startDate ? order.startDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.endDate ? order.endDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.totalSum }}</td>
+                <td>{{ order.tax }}</td>
+                <td>{{ order.status}}</td>
+                 <td> {{ include('order/_approve_button_form.html.twig') }}</td>
+                  <td> {{ include('order/_block_button_form.html.twig') }}</td>
+            </tr>
+         {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %} 
+        </tbody>
+    </table> 
      <a href="/telecom/admin">Back to telecom page</a>
 {% endblock %}

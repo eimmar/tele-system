@@ -20,11 +20,10 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Price</th>
-                <th>SpecialPrice</th>
-                <th>MbLimit</th>
-                <th>MsgLimit</th>
-                <th>TalkMinuteLimit</th>
+                <th>Price €</th>
+                <th>4G limit</th>
+                <th>Message limit</th>
+                <th>Talk limit</th>
                 <th>Order Plan</th>
             </tr>
         </thead>
@@ -33,9 +32,15 @@
                 <tr>
                     <td>{{ service.id}}</td>
                     <td>{{ service.name }}</td>
+                    {% if service.specialPrice == 0 %}
                     <td>{{ service.price }}</td>
-                    <td>{{ service.specialPrice }}</td>
-                    <td>{{ service.mbLimit }}</td>
+                    {% else %}
+                    <td>
+                    <strike><h4>{{ service.price }}</h4></strike>
+                    <h3><span class="badge badge-danger">{{ service.specialPrice }}</span></h3>
+                    </td>
+                    {% endif %}
+                    <td>{{ service.mbLimit / 1024 }} Gb</td>
                     <td>{{ service.msgLimit }}</td>
                     <td>{{ service.talkMinuteLimit }}</td>
                     <td>

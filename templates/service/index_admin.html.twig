@@ -3,9 +3,46 @@
 {% block title %}Service index{% endblock %}
 
 {% block body %}
-<h1>Admin</h1>
-    <h1>This is service page, pick service type to continue</h1>
-    <a href="/service/admin/mobile">Mobile service</a>
-<br>
-    <a href="{{ path('service_new') }}">Create new</a>
-{% endblock %}
+    <h1>Mobile service order</h1>
+<form action="/service/mobile/order" method="POST">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>SpecialPrice</th>
+                <th>MbLimit</th>
+                <th>MsgLimit</th>
+                <th>TalkMinuteLimit</th>
+                <th>Order Plan</th>
+                <th>Edit</th>
+                <th>Discount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+                <tr>
+                    <td>{{ service.id}}</td>
+                    <td>{{ service.name }}</td>
+                    <td>{{ service.price }}</td>
+                    <td>{{ service.specialPrice }}</td>
+                    <td>{{ service.mbLimit }}</td>
+                    <td>{{ service.msgLimit }}</td>
+                    <td>{{ service.talkMinuteLimit }}</td>
+                     <td> {{ include('service/_delete_form.html.twig') }}</td>
+                             <td>
+                    <a href="{{ path('service_edit', {'id': service.id}) }}" class="btn btn-primary" role="button">edit</a>
+                </td>
+                <td> {{ include('service/_delete_discount_form.html.twig') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </form>
+            <br>
+        {% endblock %}

@@ -3,12 +3,10 @@
 {% block title %}Telecom system{% endblock %}
 
 {% block body %}
-    <h1> User</h1>
     <h1>Telecommunication system main view</h1>
     <br>
-    <button onclick="location.href='http://localhost:8000/service/mobile'" type="button">
+    <button onclick="location.href='http://localhost:8000/service/mobile'" class="btn btn-primary" type="button">
      Order mobile service plan</button>
-     <form action="http://localhost:8000/order/view" method="GET">
-    <input class="btn btn-primary" type="submit" value="View Order">
-     </form>
+       <button onclick="location.href='http://localhost:8000/order/view'" class="btn btn-primary" type="button">
+     View Order</button>
 {% endblock %}
