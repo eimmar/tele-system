@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('order_submit', {'id': order.id}) }}" onsubmit="return confirm('Ar tikrai norite pateikti šį užsakymą?');">
+    <input type="hidden" name="_method" value="SUBMIT">
+    <input type="hidden" name="_token" value="{{ csrf_token('submit' ~ order.id) }}">
+    <button class="btn">Pateikti užsakymą</button>
+</form>

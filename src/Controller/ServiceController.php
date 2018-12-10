@@ -59,68 +59,69 @@ class ServiceController extends AbstractController
      /**
      * @Route("/mobile/order", name="service_order", methods="POST")
      */
-    public function order_service(ServiceRepository $serviceRepository, OrderRepository $orderRepository,OrderStatusRepository $orderStatusRepository, Request $request): Response
+    public function order_service(
+        ServiceRepository $serviceRepository,
+        OrderRepository $orderRepository,
+        OrderStatusRepository $orderStatusRepository,
+        Request $request): Response
     {
         $user = $this->getUser();
+        $serviceId = $request->request->get('service');
 
-      $serviceId = $request->request->get('service');
+        if ($serviceId === null) {
+            $this->addFlash('error', 'Pasirinkite paslaugą.');
+            return $this->redirectToRoute('service_mobile_index');
+        }
 
-      if ($serviceId === null) {
-          $this->addFlash('error', 'Pasirinkite paslaugą.');
-          return $this->redirectToRoute('service_mobile_index');
-      }
-            $service = $this->getDoctrine()
+        $service = $this->getDoctrine()
             ->getRepository(Service::class)
             ->find($serviceId);
 
-            if (!$service) {
-                throw $this->createNotFoundException(
-                    'No service found for id '.$serviceId
-                );
-            }
-            if($service->getSpecialPrice() == 0){
-                $total = $this->countPrice($request->request->get('date-from'),$request->request->get('date-to'),$service->getPrice());
-            } else {
-                $total = $this->countPrice($request->request->get('date-from'),$request->request->get('date-to'),$service->getSpecialPrice());
-            }
-        //searching for users order by user id
-        //if found we dont need to create one
-        if($request->request->get('service') != NULL){
+        if ($service === null) {
+            $this->addFlash('error', 'Pasirinkite paslaugą.');
+            return $this->redirectToRoute('service_mobile_index');
+        }
+
+        if ($service->getSpecialPrice() == 0) {
+            $total = $this->countPrice($request->request->get('date-from'),$request->request->get('date-to'),$service->getPrice());
+        } else {
+            $total = $this->countPrice($request->request->get('date-from'),$request->request->get('date-to'),$service->getSpecialPrice());
+        }
+
+        if ($request->request->get('service') != null ) {
             $orderItem = new OrderItem();
             $orderItem->setPrice($total);
 
             $dateFrom =  \DateTime::createFromFormat("Y-m-d",$request->request->get('date-from'));
-            var_dump($dateFrom);
             $orderItem->setDateFrom($dateFrom);
 
             $dateTo =  \DateTime::createFromFormat("Y-m-d",$request->request->get('date-to'));
             $orderItem->setDateTo($dateTo);
 
             $orderItem->setServiceType('Mobile service');
-          
-
             $orderItem->setOriginalService($service);
 
-            $order = $orderRepository->findOneBy(['user' => $user]);
+            $order = $orderRepository->findOneBy(['user' => $user, 'status' => 1]);
 
-            //jeigu neatrado reikia kurti nauja
             if (!$order) {
                $order = new Order();
                $order->setStartDate($dateFrom);
                $order->setEndDate($dateTo);
                $order->setTotalSum($total);
                $order->setTax(21);
-               $orderStatus = $orderStatusRepository->findOneBy(['id'=>2]);
+               $orderStatus = $orderStatusRepository->findOneBy(['id' => 1]);
                $order->setStatus($orderStatus);
-               $order->setDateCreated( \DateTime::createFromFormat("Y-m-d",date('Y-m-d')));
-               $order->setDateModified( \DateTime::createFromFormat("Y-m-d",date('Y-m-d')));
+               $order->setDateCreated(\DateTime::createFromFormat("Y-m-d",date('Y-m-d')));
+               $order->setDateModified(\DateTime::createFromFormat("Y-m-d",date('Y-m-d')));
                $order->setUser($user);
+               $order->addOrderItem($orderItem);
 
                $em = $this->getDoctrine()->getManager();
                $em->persist($order);
                $em->flush();
             }
-            
+
+            $order->addOrderItem($orderItem);
             $orderTotal = $order->getTotalSum();
             $orderTotal = $orderTotal+$total;
             $order->setTotalSum($orderTotal);
@@ -128,14 +129,8 @@ class ServiceController extends AbstractController
             $em->persist($order);
             $em->flush();
 
-            
-            $orderItem->setMainOrder($order);
-            //sukurti nauja order item 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($orderItem);
-            $em->flush();
-            
-            return $this->redirectToRoute('user_orders');
+            $this->addFlash('success', 'Paslauga įtraukta į užsakymą.');
+            return $this->redirectToRoute('service_mobile_index');
         }
     }
 

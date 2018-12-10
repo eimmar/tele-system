@@ -37,6 +37,11 @@ class MessageRequest
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="directedMessages")
+     */
+    private $receiver;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class MessageRequest
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getReceiver(): ?User
+    {
+        return $this->receiver;
+    }
+
+    public function setReceiver(?User $receiver): self
+    {
+        $this->receiver = $receiver;
 
         return $this;
     }

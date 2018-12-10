@@ -67,7 +67,7 @@ class Order
     private $invoices;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="mainOrder", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="mainOrder", orphanRemoval=true, cascade={"persist"})
      */
     private $orderItems;
 

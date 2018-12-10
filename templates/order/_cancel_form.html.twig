@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('order_cancel', {'id': order.id}) }}" onsubmit="return confirm('Ar tikrai norite atšaukti šį užsakymą?');">
+    <input type="hidden" name="_method" value="CANCEL">
+    <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ order.id) }}">
+    <button class="btn">Atšaukti užsakymą</button>
+</form>

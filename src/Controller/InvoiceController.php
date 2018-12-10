@@ -39,9 +39,7 @@ class InvoiceController extends AbstractController
      */
     public function show(Invoice $invoice): Response
     {
-//        if ($invoice->getMainOrder()->getUser() !== $this->getUser()) {
-            $this->denyAccessUnlessGranted(InvoiceVoter::VIEW, $invoice);
-//        }
+        $this->denyAccessUnlessGranted(InvoiceVoter::VIEW, $invoice);
         return $this->render('invoice/show.html.twig', ['invoice' => $invoice]);
     }
 }

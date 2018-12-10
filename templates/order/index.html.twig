@@ -1,72 +1,86 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Order index{% endblock %}
+{% block title %}Užsakymai{% endblock %}
+
+{% block mainHeader %}<h1>Užsakymai</h1>{% endblock %}
 
 {% block body %}
-    <h1>Main order</h1>
-
-    <table class="table">
+    <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>TotalSum</th>
-                <th>Tax</th>
-                <th>DateCreated</th>
-                <th>DateModified</th>
-            </tr>
+        <tr>
+            <th{% if pagination.isSorted('o.id') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Id', 'o.id') }}
+            </th>
+            <th{% if pagination.isSorted('o.startDate') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Praždia', 'o.startDate') }}
+            </th>
+            <th{% if pagination.isSorted('o.endDate') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Pabaiga', 'o.endDate') }}
+            </th>
+            <th{% if pagination.isSorted('o.totalSum') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Suma', 'o.totalSum') }}
+            </th>
+            <th{% if pagination.isSorted('o.tax') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'PVM', 'o.tax') }}
+            </th>
+            <th{% if pagination.isSorted('o.status') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Būsena', 'o.status') }}
+            </th>
+            <th{% if pagination.isSorted('o.dateCreated') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Sukūrimo data', 'o.dateCreated') }}
+            </th>
+            <th>Veiksmai</th>
+        </tr>
         </thead>
         <tbody>
-        {# {% for order in orders %} #}
-            <tr>
-                <td>{{ orders.id }}</td>
-                <td>{{ orders.startDate ? orders.startDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ orders.endDate ? orders.endDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ orders.totalSum }}</td>
-                <td>{{ orders.tax }}</td>
-                <td>{{ orders.dateCreated ? orders.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ orders.dateModified ? orders.dateModified|date('Y-m-d H:i:s') : '' }}</td>
+        {% for order in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+                <td>
+                    <a href="{{ path('order_show', {'id': order.id}) }}">
+                        {{ order.id }}
+                    </a>
+                </td>
+                <td>{{ order.startDate|date('Y-m-d') }}</td>
+                <td>{{ order.endDate|date('Y-m-d') }}</td>
+                <td>{{ order.totalSum }} Eur</td>
+                <td>{{ order.tax }} Eur</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.dateCreated|date('Y-m-d') }}</td>
+                <td>
+                    <a href="{{ path('order_show', {'id': order.id}) }}">{{ 'list.action.show'|trans }}</a>
+                    {% if order.status.id == 1 %}
+                        {{ include('order/_submit_form.html.twig') }}
+                        {{ include('order/_delete_form.html.twig') }}
+                    {% endif %}
+                    {% if order.status.id == 2 or order.status.id == 3 %}
+                        {{ include('order/_cancel_form.html.twig') }}
+                    {% endif %}
+                </td>
             </tr>
-        {# {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %} #}
-        </tbody>
-    </table> 
 
-<h1>Ordered items</h1>
-    <table class="table">
-       <thead>
-            <tr>
-                <th>Nr</th>
-                <th>Service Type</th>
-                <th>Date from</th>
-                <th>Date to</th>
-                <th>Ordered item price</th>
-                <th>Delete action</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% set i = 0 %}
-        {% for orderedItem in orderedItems %}
-        {% set i = i + 1 %}
-            <tr>
-                <td>{{ i }}</td>
-                <td>{{ orderedItem.serviceType }}</td>
-                <td>{{ orderedItem.dateFrom ? orderedItem.dateFrom|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ orderedItem.dateTo ? orderedItem.dateTo|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ orderedItem.price }}</td>
-                <td> {{ include('order/_delete_form_order_item.html.twig') }}</td>
-            </tr>
+            {% for item in order.orderItems %}
+                <tr>
+                    <td colspan="2">{{ item.dateFrom|date('Y-m-d') }}</td>
+                    <td colspan="2">{{ item.dateTo|date('Y-m-d') }}</td>
+                    <td colspan="2">{{ item.price }}</td>
+                    <td colspan="2">{{ item.serviceType }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="8">Užsakymas neturi paslaugų.</td></tr>
+            {% endfor %}
+
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="11">{{ 'list.no_results_found'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
-    {# <a href="{{ path('order_new') }}">Create new</a> #}
+    <div class="alert alert-dark count">
+        {{ 'service.list.total'|trans|format(pagination.getTotalItemCount) }}
+    </div>
 {% endblock %}

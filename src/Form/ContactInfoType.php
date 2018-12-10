@@ -21,6 +21,8 @@ class ContactInfoType extends AbstractType
             ->add('houseNumber', TextType::class,
                 [
                     'label' => 'Namo numeris',
+                    'constraints'   => [new Length(['max' => 64])]
+
                 ])
             ->add('street', TextType::class,
                 [
@@ -32,13 +34,13 @@ class ContactInfoType extends AbstractType
                 [
                     'label' => 'Pašto kodas',
                     'required'      => true,
-                    'constraints'   => [new NotBlank(), new Length(['max' => 255])]
+                    'constraints'   => [new NotBlank(), new Length(['max' => 64])]
                 ])
             ->add('phoneNumber', TextType::class,
                 [
                     'label' => 'Telefono numeris',
                     'required'      => true,
-                    'constraints'   => [new NotBlank(), new Length(['max' => 255])]
+                    'constraints'   => [new NotBlank(), new Length(['max' => 64])]
                 ])
             ->add('city', EntityType::class,
                 [

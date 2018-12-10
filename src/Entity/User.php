@@ -26,13 +26,13 @@ class User extends FOSUser
      */
     protected $id;
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false, length=64)
      * @var string
      */
     protected $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=128, nullable=true)
      */
     protected $lastName;
 
@@ -42,7 +42,7 @@ class User extends FOSUser
     private $age;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $gender;
 
@@ -62,7 +62,7 @@ class User extends FOSUser
     private $salary;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $position;
 
@@ -85,6 +85,11 @@ class User extends FOSUser
      * @ORM\OneToMany(targetEntity="App\Entity\MessageRequest", mappedBy="user")
      */
     private $messageRequests;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MessageRequest", mappedBy="receiver")
+     */
+    private $directedMessages;
 
     /**
      * @ORM\Column(type="boolean")
@@ -117,6 +122,7 @@ class User extends FOSUser
         parent::__construct();
         $this->orders = new ArrayCollection();
         $this->messageRequests = new ArrayCollection();
+        $this->directedMessages = new ArrayCollection();
         $this->contactInfos = new ArrayCollection();
     }
 
@@ -296,6 +302,37 @@ class User extends FOSUser
             // set the owning side to null (unless already changed)
             if ($messageRequest->getUser() === $this) {
                 $messageRequest->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MessageRequest[]
+     */
+    public function getDirectedMessages(): Collection
+    {
+        return $this->directedMessages;
+    }
+
+    public function addDirectedMessage(MessageRequest $directedMessage): self
+    {
+        if (!$this->directedMessages->contains($directedMessage)) {
+            $this->directedMessages[] = $directedMessage;
+            $directedMessage->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDirectedMessage(MessageRequest $directedMessage): self
+    {
+        if ($this->directedMessages->contains($directedMessage)) {
+            $this->directedMessages->removeElement($directedMessage);
+            // set the owning side to null (unless already changed)
+            if ($directedMessage->getReceiver() === $this) {
+                $directedMessage->setReceiver(null);
             }
         }
 

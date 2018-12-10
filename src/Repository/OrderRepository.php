@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -46,5 +48,15 @@ class OrderRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    
+
+    /**
+     * @param User $user
+     * @return QueryBuilder
+     */
+    public function getAllByUserQuery(User $user)
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.user = :user')
+            ->setParameter('user', $user);
+    }
 }

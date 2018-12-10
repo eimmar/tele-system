@@ -17,7 +17,7 @@ class ContactInfo
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $houseNumber;
 
@@ -27,12 +27,12 @@ class ContactInfo
     private $street;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      */
     private $postalCode;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      */
     private $phoneNumber;
 

@@ -42,3 +42,4 @@ security:
         - { path: ^/telecom/admin, role: ROLE_MANAGER }
         - { path: ^/message/request/, role: ROLE_USER }
         - { path: ^/invoice/, role: ROLE_USER }
+        - { path: ^/order/, role: ROLE_USER }

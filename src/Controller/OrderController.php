@@ -4,10 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
-use App\Entity\OrderStatus;
 use App\Form\OrderType;
 use App\Repository\OrderRepository;
 use App\Repository\OrderStatusRepository;
+use App\Security\OrderVoter;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,13 +22,82 @@ class OrderController extends AbstractController
     /**
      * @Route("/", name="order_index", methods="GET")
      */
-    public function index(OrderRepository $orderRepository): Response
+    public function index(
+        OrderRepository $orderRepository,
+        Request $request,
+        PaginatorInterface $paginator): Response
     {
-        return $this->render('order/index.html.twig');
-        return $this->render('order/index.html.twig', ['orders' => $orderRepository->findAll()]);
+        $pagination = $paginator->paginate(
+            $orderRepository->getAllByUserQuery($this->getUser()),
+            $request->query->getInt('page', 1),
+            $this->getParameter('knp_paginator.page_range')
+        );
+
+        return $this->render('order/index.html.twig', ['pagination' => $pagination]);
     }
 
-       /**
+    /**
+     * @Route("/{id}", name="order_show", methods="GET")
+     */
+    public function show(Order $order): Response
+    {
+        $this->denyAccessUnlessGranted(OrderVoter::VIEW, $order);
+        return $this->render('order/show.html.twig', ['order' => $order]);
+    }
+
+    /**
+     * @Route("/{id}", name="order_submit", methods="SUBMIT")
+     */
+    public function submit(Request $request, Order $order, OrderStatusRepository $statusRepository): Response
+    {
+        if (!$order->getOrderItems()->count()) {
+            $this->addFlash('warning', 'Privalote pasirinkti bent 1 paslaugą!');
+            return $this->redirectToRoute('order_show', ['id' => $order->getId()]);
+        }
+
+        if ($this->isCsrfTokenValid('submit'.$order->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $order->setStatus($statusRepository->findOneBy(['id' => 2]));
+            $em->persist($order);
+            $em->flush();
+            $this->addFlash('success', 'Užsakymas pateiktas.');
+        }
+
+        return $this->redirectToRoute('order_index');
+    }
+
+    /**
+     * @Route("/{id}", name="order_cancel", methods="CANCEL")
+     */
+    public function cancel(Request $request, Order $order, OrderStatusRepository $statusRepository): Response
+    {
+        if ($this->isCsrfTokenValid('cancel'.$order->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $order->setStatus($statusRepository->findOneBy(['id' => 4]));
+            $em->persist($order);
+            $em->flush();
+            $this->addFlash('success', 'Užsakymas atšauktas.');
+        }
+
+        return $this->redirectToRoute('order_index');
+    }
+
+    /**
+     * @Route("/{id}", name="order_delete", methods="DELETE")
+     */
+    public function delete(Request $request, Order $order): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$order->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($order);
+            $em->flush();
+            $this->addFlash('success', 'Užsakymas ištrintas.');
+        }
+
+        return $this->redirectToRoute('order_index');
+    }
+
+    /**
      * @Route("/disapproved", name="disapproved_orders", methods="GET")
      */
     public function disapproved_list(OrderRepository $orderRepository): Response
@@ -147,19 +217,5 @@ class OrderController extends AbstractController
             'order' => $order,
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/{id}", name="order_delete", methods="DELETE")
-     */
-    public function delete(Request $request, Order $order): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$order->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($order);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('order_index');
     }
 }

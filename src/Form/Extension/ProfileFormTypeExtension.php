@@ -3,9 +3,13 @@ namespace App\Form\Extension;
 use App\Form\ContactInfoType;
 use FOS\UserBundle\Form\Type\ProfileFormType;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 /**
  * Created by PhpStorm.
@@ -30,13 +34,21 @@ class ProfileFormTypeExtension extends AbstractTypeExtension
                 [
                     'label'         => 'profile.show.firstName',
                     'required'      => true,
-                    'constraints'   => [new NotBlank()]
+                    'constraints'   => [new NotBlank(), new Length(['max' => 64])]
                 ])
             ->add('lastName', TextType::class,
                 [
                     'label'     => 'profile.show.lastName',
                     'required'  => false,
+                    'constraints'   => [new Length(['max' => 128])]
                 ])
+            ->add('gender', ChoiceType::class, [
+                'label' => 'Lytis',
+                'required' => false,
+                'choices' => ['Vyras' => 0, 'Moteris' => 1]
+            ])
+            ->add('age', IntegerType::class, ['required' => false, 'label' => 'Amžius'])
+            ->add('birthDate', BirthdayType::class, ['required' => false, 'label' => 'Gymimo data'])
             ->add('addresses', CollectionType::class,
                 [
                     'entry_type'    => ContactInfoType::class,

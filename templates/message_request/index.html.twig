@@ -14,6 +14,9 @@
             <th{% if pagination.isSorted('mr.message') %} class="sorted"{% endif %}>
                 {{ knp_pagination_sortable(pagination, 'Pranešimas', 'mr.message') }}
             </th>
+            <th{% if pagination.isSorted('mr.receiver') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Gavėjas', 'mr.receiver') }}
+            </th>
             <th{% if pagination.isSorted('mr.status') %} class="sorted"{% endif %}>
                 {{ knp_pagination_sortable(pagination, 'Statusas', 'mr.status') }}
             </th>
@@ -32,6 +35,7 @@
                     </a>
                 </td>
                 <td>{{ message.message }}</td>
+                <td>{{ message.receiver }}</td>
                 <td>{{ message.status }}</td>
                 <td>{{ message.dateCreated|date('Y-m-d H:i:s') }}</td>
                 <td>

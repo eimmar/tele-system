@@ -5,6 +5,9 @@
     <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
     <p>{{ 'profile.show.firstName'|trans({}, 'messages') }}: {{ user.firstName }}</p>
     <p>{{ 'profile.show.lastName'|trans({}, 'messages') }}: {{ user.lastName }}</p>
+    <p>Lytis: {{ user.gender == 1 ? 'Moteris' : 'Vyras' }}</p>
+    <p>Amžius: {{ user.age ? user.age : 'N/A' }}</p>
+    <p>Gymimo data: {{ user.birthDate ? user.birthDate|date('Y-m-d') : 'N/A' }}</p>
 
     <a href="{{ path('fos_user_profile_edit') }}">{{ 'profile.edit.submit'|trans }}</a><br/>
     <a href="{{ path('fos_user_change_password') }}">{{ 'change_password.submit'|trans }}</a>
