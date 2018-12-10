@@ -1,46 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Invoice{% endblock %}
+{% block title %}
+    Sąskaita Nr. {{ invoice.id }}
+{% endblock %}
+{% block mainHeader %}
+    <h1>Sąskaita Nr. {{ invoice.id }}</h1>
+{% endblock %}
 
 {% block body %}
-    <h1>Invoice</h1>
-
     <table class="table">
         <tbody>
+        <tr>
+            <th>Užsakymo Id</th>
+            <td>{{ invoice.mainOrder.id }}</td>
+        </tr>
             <tr>
                 <th>Id</th>
                 <td>{{ invoice.id }}</td>
             </tr>
             <tr>
-                <th>Date</th>
-                <td>{{ invoice.date ? invoice.date|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Suma</th>
+                <td>{{ invoice.totalSum }} Eur</td>
             </tr>
             <tr>
-                <th>TotalSum</th>
-                <td>{{ invoice.totalSum }}</td>
-            </tr>
-            <tr>
-                <th>UsedMinutes</th>
+                <th>Išnaudotos minutės</th>
                 <td>{{ invoice.usedMinutes }}</td>
             </tr>
             <tr>
-                <th>UsedMsg</th>
+                <th>Data</th>
+                <td>{{ invoice.date|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>Išnaudotos žinutės</th>
                 <td>{{ invoice.usedMsg }}</td>
             </tr>
             <tr>
-                <th>UsedMbs</th>
-                <td>{{ invoice.usedMbs }}</td>
+                <th>Išnaudoti interneto duomenys</th>
+                <td>{{ invoice.usedMbs / 1000 }} Gb</td>
             </tr>
             <tr>
-                <th>Debt</th>
-                <td>{{ invoice.debt }}</td>
+                <th>Skola</th>
+                <td>{{ invoice.debt }} Eur</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('invoice_index') }}">back to list</a>
-
-    <a href="{{ path('invoice_edit', {'id': invoice.id}) }}">edit</a>
-
-    {{ include('invoice/_delete_form.html.twig') }}
+    <div class="col-lg-12">
+        <a href="{{ path('invoice_index') }}">Grįžti atgal</a>
+    </div>
 {% endblock %}

@@ -44,8 +44,7 @@ class ServiceController extends AbstractController
      */
     public function index_admin(ServiceRepository $serviceRepository): Response
     {
-        return $this->render('service/index_admin.html.twig');
-       // return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
+        return $this->render('service/index.html.twig', ['services' => $serviceRepository->findAll()]);
     }
     //Tadas
      /**
@@ -65,6 +64,11 @@ class ServiceController extends AbstractController
         $user = $this->getUser();
 
       $serviceId = $request->request->get('service');
+
+      if ($serviceId === null) {
+          $this->addFlash('error', 'Pasirinkite paslaugą.');
+          return $this->redirectToRoute('service_mobile_index');
+      }
             $service = $this->getDoctrine()
             ->getRepository(Service::class)
             ->find($serviceId);

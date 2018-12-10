@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Invoice;
+use App\Entity\Order;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,32 +22,15 @@ class InvoiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Invoice::class);
     }
 
-//    /**
-//     * @return Invoice[] Returns an array of Invoice objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param User $serviceType
+     * @return QueryBuilder
+     */
+    public function getAllByUserQuery(User $user)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+            ->add('from', Invoice::class . ' i LEFT JOIN i.mainOrder o')
+            ->where('o.user = :user')
+            ->setParameter('user', $user);
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Invoice
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -1,45 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Invoice index{% endblock %}
+{% block title %}Sąskaitos{% endblock %}
+
+{% block mainHeader %}<h1>Sąskaitos</h1>{% endblock %}
 
 {% block body %}
-    <h1>Invoice index</h1>
-
-    <table class="table">
+    <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>TotalSum</th>
-                <th>UsedMinutes</th>
-                <th>UsedMsg</th>
-                <th>UsedMbs</th>
-                <th>Debt</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th{% if pagination.isSorted('i.id') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Id', 'i.id') }}
+            </th>
+            <th{% if pagination.isSorted('i.totalSum') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Suma', 'i.totalSum') }}
+            </th>
+            <th{% if pagination.isSorted('i.debt') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Skola', 'i.debt') }}
+            </th>
+            <th{% if pagination.isSorted('i.usedMsg') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Išnaudota žin.', 'i.usedMsg') }}
+            </th>
+            <th{% if pagination.isSorted('i.usedMinutes') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Išnaudota min.', 'i.usedMinutes') }}
+            </th>
+            <th{% if pagination.isSorted('i.usedMb') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Išnaudota duom.', 'i.usedMb') }}
+            </th>
+            <th{% if pagination.isSorted('i.date') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Data', 'i.date') }}
+            </th>
+            <th>Veiksmai</th>
+        </tr>
         </thead>
         <tbody>
-        {% for invoice in invoices %}
-            <tr>
-                <td>{{ invoice.id }}</td>
-                <td>{{ invoice.date ? invoice.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ invoice.totalSum }}</td>
-                <td>{{ invoice.usedMinutes }}</td>
-                <td>{{ invoice.usedMsg }}</td>
-                <td>{{ invoice.usedMbs }}</td>
-                <td>{{ invoice.debt }}</td>
+        {% for invoice in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
                 <td>
-                    <a href="{{ path('invoice_show', {'id': invoice.id}) }}">show</a>
-                    <a href="{{ path('invoice_edit', {'id': invoice.id}) }}">edit</a>
+                    <a href="{{ path('invoice_show', {'id': invoice.id}) }}">
+                        {{ invoice.id }}
+                    </a>
+                </td>
+                <td>{{ invoice.totalSum }}</td>
+                <td>{{ invoice.debt }}</td>
+                <td>{{ invoice.usedMsg }}</td>
+                <td>{{ invoice.usedMinutes }}</td>
+                <td>{{ invoice.usedMbs / 1000 }}</td>
+                <td>{{ invoice.date|date('Y-m-d') }}</td>
+                <td>
+                    <a href="{{ path('invoice_show', {'id': invoice.id}) }}">{{ 'list.action.show'|trans }}</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="11">{{ 'list.no_results_found'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
-    <a href="{{ path('invoice_new') }}">Create new</a>
+    <div class="alert alert-dark count">
+        {{ 'service.list.total'|trans|format(pagination.getTotalItemCount) }}
+    </div>
 {% endblock %}

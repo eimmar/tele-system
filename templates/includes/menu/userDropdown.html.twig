@@ -9,6 +9,9 @@
         {% if my_var == 'ROLE_ADMIN' %}
             {% set is_admin = 1 %}
         {% endif %}
+        {% if my_var == 'ROLE_MANAGER' %}
+            {% set is_admin = 1 %}
+        {% endif %}
     {% endfor %}
     {% if is_admin == 1 %}
         <a href="{{ path('sonata_admin_dashboard') }}" class="dropdown-item">admin</a>

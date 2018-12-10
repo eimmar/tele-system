@@ -7,6 +7,7 @@
  */
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,8 +16,12 @@ class IndexController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function index()
+    public function index(EntityManagerInterface $em)
     {
+//        $user = $this->getUser();
+//        $user->addRole('ROLE_MANAGER');
+//        $em->persist($user);
+//        $em->flush();
         return $this->render('index/index.html.twig');
     }
 

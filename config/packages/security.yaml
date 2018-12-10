@@ -39,4 +39,6 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_MANAGER }
+        - { path: ^/telecom/admin, role: ROLE_MANAGER }
         - { path: ^/message/request/, role: ROLE_USER }
+        - { path: ^/invoice/, role: ROLE_USER }

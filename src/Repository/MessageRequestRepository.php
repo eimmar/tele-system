@@ -22,7 +22,7 @@ class MessageRequestRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param User $serviceType
+     * @param User $user
      * @return QueryBuilder
      */
     public function getAllByUserQuery(User $user)
@@ -31,33 +31,4 @@ class MessageRequestRepository extends ServiceEntityRepository
             ->where('mr.user = :user')
             ->setParameter('user', $user);
     }
-
-//    /**
-//     * @return MessageRequest[] Returns an array of MessageRequest objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?MessageRequest
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

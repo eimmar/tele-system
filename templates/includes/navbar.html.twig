@@ -15,6 +15,7 @@
                             {{ 'layout.logged_in_as'|trans({'%username%': app.user.firstname}, 'FOSUserBundle') }}
                         </a>
                         {{ include('includes/menu/userDropdown.html.twig') }}
+
                     </div>
                     {{ include('includes/menu/arrangement.html.twig') }}
                 {% else %}

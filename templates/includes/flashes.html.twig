@@ -1,6 +1,7 @@
+{% set msgType = { 'error': 'danger', 'success': 'success', 'warning': 'warning' } %}
 {% for label, messages in app.flashes %}
     {% for message in messages %}
-        <div class="alert alert-{{ label }}">
+        <div class="alert alert-{{ msgType[label] }}">
             {{ message|trans }}
         </div>
     {% endfor %}
