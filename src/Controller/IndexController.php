@@ -18,10 +18,6 @@ class IndexController extends AbstractController
      */
     public function index(EntityManagerInterface $em)
     {
-//        $user = $this->getUser();
-//        $user->addRole('ROLE_MANAGER');
-//        $em->persist($user);
-//        $em->flush();
         return $this->render('index/index.html.twig');
     }
 
