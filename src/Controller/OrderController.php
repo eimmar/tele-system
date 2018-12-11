@@ -98,9 +98,9 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/disapproved", name="disapproved_orders", methods="GET")
+     * @Route("/disapproved/list", name="disapproved_orders", methods="GET")
      */
-    public function disapproved_list(OrderRepository $orderRepository): Response
+    public function disapproved(OrderRepository $orderRepository): Response
     {
         return $this->render('order/disapproved_orders.html.twig',['orders' => $orderRepository->findAll()]);
     }
